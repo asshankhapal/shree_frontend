@@ -29,25 +29,25 @@ function App() {
           <Route
             path="/dashboard"
             element={
-             
+              <ProtectedRoute>
                 <Dashboard />
-              
+              </ProtectedRoute>
             }
           />
           <Route
             path="/laptops"
             element={
-              
+              <ProtectedRoute>
                 <LaptopStore />
-             
+              </ProtectedRoute>
             }
           />
           <Route
             path="/repair-booking"
             element={
-              
+              <ProtectedRoute>
                 <RepairBooking />
-              
+              </ProtectedRoute>
             }
           />
           
@@ -56,9 +56,9 @@ function App() {
           <Route
             path="/admin/dashboard"
             element={
-              
+              <ProtectedRoute>
                 <AdminDashboard />
-              
+              </ProtectedRoute>
             }
           />
         </Routes>
