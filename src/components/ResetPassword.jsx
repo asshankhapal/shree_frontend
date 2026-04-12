@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import API from "../api/axios";
 import { Cpu, Lock, ChevronRight, ArrowLeft, ShieldCheck, ShieldAlert, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 
 export default function ResetPassword() {
@@ -31,7 +31,7 @@ export default function ResetPassword() {
     setLoading(true);
 
     try {
-      const res = await axios.post(`https://www.shreeenterprise.app/api/auth/reset-password/${token}`, {
+      const res = await API.post(`/auth/reset-password/${token}`, {
         password: newPassword,
       });
       setMessage(res.data.message || "Password updated successfully!");

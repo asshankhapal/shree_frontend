@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../api/axios";
 import { Cpu, Mail, ChevronRight, ArrowLeft, ShieldCheck, ShieldAlert, CheckCircle2 } from "lucide-react";
 
 export default function ForgotPassword() {
@@ -18,7 +18,7 @@ export default function ForgotPassword() {
     setError("");
 
     try {
-      const res = await axios.post("https://www.shreeenterprise.app/api/auth/forgot-password", { email });
+      const res = await API.post("/auth/forgot-password", { email });
       setMessage(res.data.message || "A reset link has been sent to your email!");
       setSent(true);
     } catch (err) {

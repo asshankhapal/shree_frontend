@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import API from '../api/axios';
 import { 
   Clock, Wrench, ShieldCheck, Monitor, Cpu, Users, 
   MapPin, Phone, CheckCircle2, ChevronRight, LogOut, 
@@ -9,7 +9,7 @@ import {
   LayoutDashboard, ShoppingBag, Settings, Bell, Search, Star, Trash2
 } from 'lucide-react';
 
-const API_BASE = 'https://www.shreeenterprise.app/api';
+// Removed hardcoded API_BASE and localized axios in favor of central API utility
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -28,12 +28,9 @@ export default function Dashboard() {
   const fetchUserActivity = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-      
       const [repairsRes, ordersRes] = await Promise.all([
-        axios.get(`${API_BASE}/repairs/my`, config),
-        axios.get(`${API_BASE}/laptops/my-orders`, config)
+        API.get("/repairs/my"),
+        API.get("/laptops/my-orders")
       ]);
       
       setRepairs(repairsRes.data);
@@ -53,10 +50,7 @@ export default function Dashboard() {
   const handleDeleteRepair = async (id) => {
     if (!window.confirm('Are you sure you want to cancel this repair booking?')) return;
     try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`${API_BASE}/repairs/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.delete(`/repairs/${id}`);
       setRepairs(prev => prev.filter(r => r._id !== id));
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to delete repair booking.');
@@ -66,10 +60,7 @@ export default function Dashboard() {
   const handleDeleteOrder = async (id) => {
     if (!window.confirm('Are you sure you want to cancel this laptop order?')) return;
     try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`${API_BASE}/laptops/orders/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.delete(`/laptops/orders/${id}`);
       setOrders(prev => prev.filter(o => o._id !== id));
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to delete laptop order.');
