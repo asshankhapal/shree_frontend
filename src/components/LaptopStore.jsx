@@ -5,7 +5,7 @@ import API from '../api/axios';
 import {
   Wrench, LogOut, User, ShoppingCart, Star, Cpu, HardDrive,
   Monitor, MemoryStick, ChevronRight, X, CheckCircle2, Package,
-  ArrowLeft, Laptop, LayoutDashboard, ShoppingBag, Sparkles
+  ArrowLeft, Laptop, LayoutDashboard, ShoppingBag, Sparkles, Bell, Search
 } from 'lucide-react';
 
 export default function LaptopStore() {
@@ -80,180 +80,172 @@ export default function LaptopStore() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex text-sm selection:bg-blue-500/30">
-      {/* Sidebar - Consistent with Dashboard */}
-      <aside className="w-64 bg-slate-900/50 backdrop-blur-xl border-r border-slate-800 flex flex-col sticky top-0 h-screen shrink-0 overflow-y-auto hidden lg:flex bg-circuit">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex selection:bg-blue-600/10">
+      {/* Sidebar Navigation */}
+      <aside className="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen shrink-0 overflow-y-auto hidden lg:flex shadow-sm">
         <div className="p-6">
           <div className="flex items-center space-x-3 mb-10">
-            <div className="h-10 w-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <Wrench className="h-5 w-5 text-white" />
+            <div className="h-10 w-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-600/20 transition-all">
+              <ShoppingBag className="h-5 w-5 text-white" />
             </div>
             <div>
-              <div className="font-bold text-white tracking-tight">Shree Store</div>
-              <div className="text-[10px] text-blue-500 font-black uppercase tracking-widest leading-none">
-                Laptop Shop
+              <div className="font-bold text-slate-900 text-lg tracking-tight">Shree <span className="text-blue-600">Enterprises</span></div>
+              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none mt-0.5">
+                Hardware Marketplace
               </div>
             </div>
           </div>
 
-          <nav className="space-y-1">
+          <nav className="space-y-1.5">
             {[
-              { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-              { id: "store", label: "Store", icon: ShoppingBag, path: "/laptops", active: true },
-              { id: "booking", label: "Book Repair", icon: Wrench, path: "/repair-booking" },
+              { id: "dashboard", label: "Overview", icon: LayoutDashboard, path: "/dashboard" },
+              { id: "store", label: "Shop Laptops", icon: ShoppingBag, path: "/laptops", active: true },
+              { id: "booking", label: "Repair Service", icon: Wrench, path: "/repair-booking" },
             ].map((item) => (
               <Link
                 key={item.id}
                 to={item.path}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
+                className={`w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all ${
                   item.active
-                    ? "bg-blue-600/10 text-blue-400 border border-blue-500/20"
-                    : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
                 <item.icon className="h-5 w-5" />
-                <span className="font-semibold">{item.label}</span>
+                <span className="font-semibold text-sm">{item.label}</span>
               </Link>
             ))}
           </nav>
         </div>
 
-        <div className="mt-auto p-6 border-t border-slate-800">
-          <div className="flex items-center gap-3 mb-6 px-2">
-            <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center border border-slate-700">
-              <User className="w-5 h-5 text-blue-400" />
+        <div className="mt-auto p-6 border-t border-slate-100 bg-slate-50/50">
+          <div className="flex items-center gap-3 mb-6 px-1">
+            <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center border border-slate-200 shadow-sm text-blue-600">
+               <User className="w-5 h-5" />
             </div>
             <div className="overflow-hidden">
-              <div className="font-bold truncate text-white">{user?.username || 'Client'}</div>
-              <div className="text-[10px] text-slate-500 font-medium tracking-tight">User Account</div>
+              <div className="text-sm font-bold truncate text-slate-900">{user?.username || 'Client User'}</div>
+              <div className="text-[10px] text-slate-500 font-semibold tracking-wide">Premium Account</div>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-red-500/10 hover:text-red-400 border border-slate-700 py-2.5 rounded-xl transition-all font-bold text-slate-400"
+            className="w-full flex items-center justify-center gap-2 bg-white hover:bg-red-50 hover:text-red-500 border border-slate-200 py-2.5 rounded-xl transition-all font-bold text-xs text-slate-600 shadow-sm"
           >
             <LogOut className="h-4 w-4" />
-            <span>Logout</span>
+            <span>Sign Out</span>
           </button>
         </div>
       </aside>
 
       {/* Main Content Area */}
-  <main className="flex-1 p-4 md:p-8 overflow-y-auto relative">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
-        
-        <header className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4 relative z-10">
+      <main className="flex-1 p-6 md:p-10 overflow-y-auto relative">
+        <header className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-[10px] font-black uppercase tracking-widest mb-4 shadow-[0_0_15px_rgba(59,130,246,0.1)]">
-              <Cpu className="w-3.5 h-3.5 animate-pulse" />
-              Verified Hardware Inventory
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider mb-3">
+               <Sparkles className="w-3.5 h-3.5" />
+               Latest Hardware Verified
             </div>
-            <h1 className="text-4xl font-black text-white tracking-tighter uppercase italic">
-              Electronic <span className="text-blue-600">Workstations</span>
+            <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
+              Premium <span className="text-blue-600">Marketplace</span>
             </h1>
-            <p className="text-slate-500 font-medium text-xs mt-2 tracking-wide uppercase font-tech">Precision Procurement Layer Active</p>
+            <p className="text-slate-500 font-medium text-sm mt-1">Authorized dealer for high-performance workstations.</p>
           </div>
           
           <div className="flex items-center gap-3">
-             <Link
-                to="/dashboard"
-                className="flex items-center gap-2 bg-slate-900 border border-slate-800 text-slate-400 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-800 hover:text-white transition-all shadow-xl"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Dashboard</span>
-              </Link>
+             <div className="relative group hidden md:block">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <input 
+                type="text" 
+                placeholder="Search models..." 
+                className="bg-white border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-sm outline-none focus:border-blue-600 transition shadow-sm"
+              />
+            </div>
+            <button className="h-10 w-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 hover:text-blue-600 transition shadow-sm relative">
+              <Bell className="h-5 w-5" />
+              <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+            </button>
           </div>
         </header>
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-2xl flex items-center gap-3 mb-8 font-bold">
+          <div className="bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl flex items-center gap-3 mb-8 text-sm font-medium">
             <X className="h-5 w-5" />
             {error}
           </div>
         )}
 
         {loading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-slate-900 border border-slate-800 rounded-3xl p-6 animate-pulse">
-                <div className="w-full h-40 bg-slate-950 rounded-2xl mb-4"></div>
-                <div className="h-5 bg-slate-950 rounded w-3/4 mb-3"></div>
-                <div className="h-4 bg-slate-950 rounded w-1/2 mb-6"></div>
-                <div className="h-10 bg-slate-950 rounded-xl"></div>
+              <div key={i} className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm animate-pulse">
+                <div className="w-full h-40 bg-slate-100 rounded-xl mb-4"></div>
+                <div className="h-5 bg-slate-100 rounded w-3/4 mb-3"></div>
+                <div className="h-4 bg-slate-100 rounded w-1/2 mb-6"></div>
+                <div className="h-10 bg-slate-100 rounded-xl"></div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {laptops.map((laptop) => (
               <div
                 key={laptop._id}
-                className="bg-slate-900 border border-slate-800 rounded-[2rem] p-6 hover:border-blue-600/50 transition-all duration-700 group flex flex-col relative overflow-hidden shadow-2xl hover:shadow-blue-600/5"
+                className="bg-white border border-slate-200 rounded-2xl p-5 hover:border-blue-300 transition-all group flex flex-col relative shadow-sm hover:shadow-md"
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/5 blur-3xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                
                 {/* Image area */}
-                <div className="w-full h-44 bg-slate-950 rounded-2xl mb-5 flex items-center justify-center overflow-hidden border border-slate-800 relative group-hover:shadow-2xl transition-shadow">
+                <div className="w-full h-44 bg-slate-50 rounded-xl mb-5 flex items-center justify-center overflow-hidden border border-slate-100 p-4">
                   {laptop.image ? (
-                    <img src={laptop.image} alt={laptop.name} className="w-full h-full object-cover group-hover:scale-110 transition duration-700" />
+                    <img src={laptop.image} alt={laptop.name} className="w-full h-full object-contain group-hover:scale-105 transition duration-500" />
                   ) : (
-                    <Laptop className="w-16 h-16 text-slate-800 group-hover:text-blue-600 transition-colors" />
+                    <Laptop className="w-12 h-12 text-slate-200" />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent"></div>
                 </div>
 
                 {/* Brand & Price */}
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-blue-500 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
                     {laptop.brand}
                   </span>
-                  <div className="flex items-center gap-1">
-                    <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-                    <span className="text-xs font-bold text-slate-400">{laptop.rating}</span>
+                  <div className="flex items-center gap-1 group/rating">
+                    <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
+                    <span className="text-xs font-bold text-slate-400 group-hover/rating:text-slate-600 transition-colors">{laptop.rating}</span>
                   </div>
                 </div>
 
-                {/* Name */}
-                <h3 className="font-black text-white text-lg mb-4 tracking-tight leading-none h-12 line-clamp-2">{laptop.name}</h3>
+                <h3 className="font-bold text-slate-900 text-base mb-4 tracking-tight leading-tight line-clamp-2 min-h-[2.5rem]">{laptop.name}</h3>
 
                 {/* Specs */}
-                <div className="grid grid-cols-2 gap-3 mb-6">
-                  <div className="flex items-center gap-2 text-[11px] text-slate-500 font-bold bg-slate-950/50 p-2 rounded-xl border border-slate-800/50">
-                    <Cpu className="w-3.5 h-3.5 text-blue-600" />
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center gap-2 text-[11px] text-slate-500 font-semibold bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                    <Cpu className="w-3.5 h-3.5 text-blue-400" />
                     <span className="truncate">{laptop.specs?.processor}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-[11px] text-slate-500 font-bold bg-slate-950/50 p-2 rounded-xl border border-slate-800/50">
-                    <MemoryStick className="w-3.5 h-3.5 text-blue-600" />
+                  <div className="flex items-center gap-2 text-[11px] text-slate-500 font-semibold bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                    <MemoryStick className="w-3.5 h-3.5 text-blue-400" />
                     <span className="truncate">{laptop.specs?.ram}</span>
                   </div>
                 </div>
 
-                {/* Footer section with price and button */}
-                <div className="mt-auto pt-4 border-t border-slate-800">
-                  <div className="flex items-baseline gap-2 mb-4">
-                    <span className="text-2xl font-black text-white tracking-widest">{formatPrice(laptop.price)}</span>
+                {/* Price and Action */}
+                <div className="mt-auto pt-4 border-t border-slate-50 flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <span className="text-lg font-bold text-slate-900">{formatPrice(laptop.price)}</span>
                     {laptop.originalPrice && laptop.originalPrice > laptop.price && (
-                      <span className="text-xs text-slate-600 line-through font-bold">{formatPrice(laptop.originalPrice)}</span>
+                      <span className="text-[10px] text-slate-400 line-through font-medium">{formatPrice(laptop.originalPrice)}</span>
                     )}
                   </div>
 
                   <button
                     onClick={() => openBooking(laptop)}
                     disabled={!laptop.inStock}
-                    className={`w-full py-3.5 rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 transition-all shadow-xl ${
+                    className={`h-10 px-4 rounded-xl font-bold uppercase tracking-widest text-[10px] transition-all ${
                       laptop.inStock
-                        ? 'bg-blue-600 text-white shadow-blue-500/10 hover:bg-blue-700 hover:shadow-blue-500/20'
-                        : 'bg-slate-800 text-slate-600 cursor-not-allowed'
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:translate-y-[-1px]'
+                        : 'bg-slate-100 text-slate-400 cursor-not-allowed'
                     }`}
                   >
-                    {laptop.inStock ? (
-                      <>
-                        <ShoppingCart className="w-4 h-4" />
-                        Buy Now
-                      </>
-                    ) : (
-                      'Out of Stock'
-                    )}
+                    {laptop.inStock ? 'Checkout' : 'Sold Out'}
                   </button>
                 </div>
               </div>
@@ -264,59 +256,56 @@ export default function LaptopStore() {
 
       {/* Booking Modal */}
       {showModal && selectedLaptop && (
-        <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-6" onClick={() => setShowModal(false)}>
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-6" onClick={() => setShowModal(false)}>
           <div
-            className="bg-slate-900 border border-slate-800 rounded-[2.5rem] shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto relative"
+            className="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto relative animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {bookingSuccess ? (
               <div className="p-10 text-center">
-                <div className="w-20 h-20 bg-emerald-500/10 border border-emerald-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-emerald-500/10">
-                  <CheckCircle2 className="w-10 h-10 text-emerald-500" />
+                <div className="w-16 h-16 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle2 className="w-8 h-8 text-emerald-600" />
                 </div>
-                <h3 className="text-3xl font-black text-white tracking-tight mb-3 uppercase">Order Initiated</h3>
-                <p className="text-slate-400 font-medium mb-10 leading-relaxed px-4">Your request for <span className="text-blue-500 font-bold">{selectedLaptop.name}</span> has been broadcast to our logistics team.</p>
+                <h3 className="text-2xl font-bold text-slate-900 tracking-tight mb-2">Order Confirmed</h3>
+                <p className="text-slate-500 text-sm font-medium mb-8 leading-relaxed">Your request for <span className="text-blue-600 font-bold">{selectedLaptop.name}</span> has been received. Our team will contact you shortly.</p>
                 
-                <div className="bg-slate-950 border border-slate-800 rounded-3xl p-6 mb-10 text-left">
-                   <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 mb-4 inline-block border-b border-slate-800 pb-1">Receipt Details</div>
-                  <div className="flex items-center justify-between font-bold mb-3">
-                    <span className="text-slate-500 text-xs">Total Amount</span>
-                    <span className="text-white text-lg tracking-tighter">{formatPrice(selectedLaptop.price)}</span>
+                <div className="bg-slate-50 rounded-2xl p-5 mb-8 text-left border border-slate-100">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-slate-500 text-xs font-bold uppercase tracking-wider">Total Price</span>
+                    <span className="text-slate-900 text-lg font-bold">{formatPrice(selectedLaptop.price)}</span>
                   </div>
-                  <div className="flex items-center justify-between font-bold">
-                    <span className="text-slate-500 text-xs">Fulfillment</span>
-                    <span className="text-emerald-500 flex items-center gap-1 text-[10px] uppercase tracking-widest">
-                      <Package className="w-3.5 h-3.5" /> Synchronized
-                    </span>
+                  <div className="flex items-center justify-between text-xs font-semibold">
+                    <span className="text-slate-500">Service Status</span>
+                    <span className="text-emerald-600">Authorized</span>
                   </div>
                 </div>
                 
                 <button
                   onClick={() => setShowModal(false)}
-                  className="w-full bg-blue-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition"
+                  className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-blue-700 transition shadow-lg shadow-blue-600/20"
                 >
-                  Return to Store
+                  Back to Store
                 </button>
               </div>
             ) : (
               <>
-                <div className="p-8 border-b border-slate-800 flex items-center justify-between">
+                <div className="p-6 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white/80 backdrop-blur-md z-10">
                   <div className="flex items-center gap-4">
-                     <div className="w-12 h-12 bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden flex items-center justify-center">
+                     <div className="w-12 h-12 bg-slate-50 border border-slate-200 rounded-xl overflow-hidden flex items-center justify-center p-2">
                         {selectedLaptop.image ? (
-                          <img src={selectedLaptop.image} className="w-full h-full object-cover" />
+                          <img src={selectedLaptop.image} className="w-full h-full object-contain" />
                         ) : (
-                          <Laptop className="w-6 h-6 text-slate-700" />
+                          <Laptop className="w-6 h-6 text-slate-200" />
                         )}
                      </div>
                      <div>
-                        <div className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-0.5">Asset Procurement</div>
-                        <h3 className="text-xl font-black text-white tracking-tight leading-none">{selectedLaptop.name}</h3>
+                        <div className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-0.5">Hardware Order</div>
+                        <h3 className="text-lg font-bold text-slate-900 tracking-tight leading-none line-clamp-1">{selectedLaptop.name}</h3>
                      </div>
                   </div>
                   <button
                     onClick={() => setShowModal(false)}
-                    className="h-10 w-10 bg-slate-800 rounded-xl flex items-center justify-center hover:bg-slate-700 transition text-slate-400 hover:text-white"
+                    className="h-10 w-10 bg-slate-50 rounded-xl flex items-center justify-center hover:bg-slate-100 transition text-slate-400 hover:text-slate-900"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -324,59 +313,59 @@ export default function LaptopStore() {
 
                 <form onSubmit={handleBook} className="p-8 space-y-6">
                   {error && (
-                    <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-2xl text-xs font-bold">
+                    <div className="bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl text-xs font-bold">
                       {error}
                     </div>
                   )}
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="space-y-2">
-                       <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Procurement Officer</label>
+                       <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">Full Name</label>
                        <input
                         type="text"
                         value={form.name}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
                         required
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm focus:border-blue-600 outline-none transition text-white placeholder:text-slate-700"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:border-blue-600 outline-none transition placeholder:text-slate-300"
                         placeholder="Authorized Name"
                       />
                     </div>
                     <div className="space-y-2">
-                       <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Synchronized Email</label>
+                       <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">Email ID</label>
                        <input
                         type="email"
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
                         required
-                        className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm focus:border-blue-600 outline-none transition text-white placeholder:text-slate-700"
-                        placeholder="corporate@domain.com"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:border-blue-600 outline-none transition placeholder:text-slate-300"
+                        placeholder="client@example.com"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Network Contact</label>
+                     <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">Contact Number</label>
                      <input
                       type="tel"
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       required
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm focus:border-blue-600 outline-none transition text-white placeholder:text-slate-700"
-                      placeholder="+91 XXXXX XXXXX"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:border-blue-600 outline-none transition placeholder:text-slate-300"
+                      placeholder="+91 XXXX XXXX"
                     />
                   </div>
 
-                  <div className="pt-6 border-t border-slate-800 flex items-center justify-between gap-6">
+                  <div className="pt-6 border-t border-slate-100 flex items-center justify-between gap-6">
                      <div>
-                        <div className="text-[10px] font-black uppercase tracking-widest text-slate-600">Total Synchronized Cost</div>
-                        <div className="text-2xl font-black text-white tracking-widest">{formatPrice(selectedLaptop.price)}</div>
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Total Calculation</div>
+                        <div className="text-2xl font-bold text-slate-900">{formatPrice(selectedLaptop.price)}</div>
                      </div>
                      <button
                         type="submit"
                         disabled={submitting}
-                        className="flex-1 bg-blue-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-2xl shadow-blue-500/20 hover:bg-blue-700 transition disabled:opacity-50"
+                        className="flex-1 bg-blue-600 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-[11px] shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition disabled:opacity-50"
                       >
-                        {submitting ? 'Authenticating...' : 'Confirm Order'}
+                        {submitting ? 'Processing...' : 'Place Order'}
                       </button>
                   </div>
                 </form>
@@ -385,12 +374,7 @@ export default function LaptopStore() {
           </div>
         </div>
       )}
-
-      {/* Global CSS for hidden scrollbar */}
-      <style dangerouslySetInnerHTML={{ __html: `
-        ::-webkit-scrollbar { width: 0; background: transparent; }
-        ::-webkit-scrollbar-thumb { display: none; }
-      `}} />
     </div>
   );
 }
+

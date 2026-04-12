@@ -82,113 +82,110 @@ export default function Dashboard() {
   const totalSpent = orders.reduce((sum, o) => sum + (o.laptopId?.price || 0), 0);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex selection:bg-blue-500/30">
-      {/* Sidebar Navigation - Circuit Enhanced */}
-      <aside className="w-64 bg-slate-900/50 backdrop-blur-xl border-r border-slate-800 flex flex-col sticky top-0 h-screen shrink-0 overflow-y-auto hidden lg:flex bg-circuit">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex selection:bg-blue-600/10">
+      {/* Sidebar Navigation */}
+      <aside className="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen shrink-0 overflow-y-auto hidden lg:flex shadow-sm">
         <div className="p-6">
           <div className="flex items-center space-x-3 mb-10">
-            <div className="h-10 w-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all group-hover:scale-110">
-              <Cpu className="h-5 w-5 text-white animate-pulse" />
+            <div className="h-10 w-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-600/20 transition-all">
+              <Cpu className="h-5 w-5 text-white" />
             </div>
             <div>
-              <div className="font-extrabold text-white tracking-widest uppercase italic">Shree <span className="text-blue-500">Suite</span></div>
-              <div className="text-[9px] text-slate-500 font-black uppercase tracking-[0.3em] leading-none mt-1">
-                My Dashboard
+              <div className="font-bold text-slate-900 text-lg tracking-tight">Shree <span className="text-blue-600">Enterprises</span></div>
+              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none mt-0.5">
+                Customer Dashboard
               </div>
             </div>
           </div>
 
-          <nav className="space-y-1">
+          <nav className="space-y-1.5">
             {[
-              { id: "dashboard", label: "Home", icon: LayoutDashboard, path: "/dashboard" },
+              { id: "dashboard", label: "Overview", icon: LayoutDashboard, path: "/dashboard" },
               { id: "store", label: "Shop Laptops", icon: ShoppingBag, path: "/laptops" },
-              { id: "booking", label: "Repair Device", icon: Wrench, path: "/repair-booking" },
+              { id: "booking", label: "Repair Service", icon: Wrench, path: "/repair-booking" },
             ].map((item) => (
               <Link
                 key={item.id}
                 to={item.path}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all border ${
+                className={`w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all ${
                   item.id === "dashboard"
-                    ? "bg-blue-600/10 text-blue-400 border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]"
-                    : "text-slate-500 border-transparent hover:bg-slate-800/50 hover:text-slate-200"
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
                 <item.icon className="h-5 w-5" />
-                <span className="font-black uppercase tracking-widest text-[10px]">{item.label}</span>
+                <span className="font-semibold text-sm">{item.label}</span>
               </Link>
             ))}
           </nav>
         </div>
 
-        <div className="mt-auto p-6 border-t border-slate-800/50">
-          <div className="flex items-center gap-3 mb-6 px-2">
-            <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center border border-slate-700 shadow-inner">
-               <User className="w-5 h-5 text-blue-500" />
+        <div className="mt-auto p-6 border-t border-slate-100 bg-slate-50/50">
+          <div className="flex items-center gap-3 mb-6 px-1">
+            <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center border border-slate-200 shadow-sm text-blue-600">
+               <User className="w-5 h-5" />
             </div>
             <div className="overflow-hidden">
-              <div className="text-[11px] font-black uppercase tracking-widest truncate text-white">{user?.username || 'Client'}</div>
-              <div className="text-[10px] text-slate-500 font-medium tracking-tight">User Account</div>
+              <div className="text-sm font-bold truncate text-slate-900">{user?.username || 'Client User'}</div>
+              <div className="text-[10px] text-slate-500 font-semibold tracking-wide">Premium Account</div>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-red-500/10 hover:text-red-500 border border-slate-800 py-3 rounded-xl transition-all font-black uppercase tracking-widest text-[9px] text-slate-500"
+            className="w-full flex items-center justify-center gap-2 bg-white hover:bg-red-50 hover:text-red-500 border border-slate-200 py-2.5 rounded-xl transition-all font-bold text-xs text-slate-600 shadow-sm"
           >
             <LogOut className="h-4 w-4" />
-            <span>Logout</span>
+            <span>Sign Out</span>
           </button>
         </div>
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-4 md:p-8 overflow-y-auto relative">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2 animate-tech-pulse"></div>
-        
-        <header className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4 relative z-10">
+      <main className="flex-1 p-6 md:p-10 overflow-y-auto relative">
+        <header className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-[10px] font-black uppercase tracking-widest mb-4 shadow-[0_0_15px_rgba(59,130,246,0.1)]">
-               <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping"></div>
-               System Status: Online
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider mb-3">
+               <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></div>
+               Service Center Online
             </div>
-            <h1 className="text-4xl font-black text-white tracking-tighter uppercase italic">
-              My <span className="text-blue-600">Account</span>
+            <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
+              Account <span className="text-blue-600">Dashboard</span>
             </h1>
-            <p className="text-slate-500 font-medium text-xs mt-2 tracking-wide uppercase font-tech font-bold uppercase tracking-widest leading-none">Connected & Ready</p>
+            <p className="text-slate-500 font-medium text-sm mt-1">Manage your hardware repairs and device orders.</p>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
              <div className="relative group hidden md:block">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <input 
                 type="text" 
-                placeholder="Search ticket number..." 
-                className="bg-slate-900 border border-slate-800 rounded-xl py-2 pl-10 pr-4 text-sm outline-none focus:border-blue-600 transition"
+                placeholder="Track repair status..." 
+                className="bg-white border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-sm outline-none focus:border-blue-600 transition shadow-sm"
               />
             </div>
-            <button className="h-10 w-10 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-center text-slate-500 hover:text-blue-400 transition relative">
+            <button className="h-10 w-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 hover:text-blue-600 transition shadow-sm relative">
               <Bell className="h-5 w-5" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-blue-600 rounded-full ring-2 ring-slate-950"></span>
+              <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
             </button>
           </div>
         </header>
 
-        {/* Quick Summary Stats - Electronics Suite Style */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 relative z-10">
+        {/* Status Dashboard */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           {[
-            { label: 'Current Repairs', val: activeRepairsCount, icon: Wrench, color: 'blue', detail: 'Being Fixed' },
-            { label: 'Laptop Orders', val: orders.length, icon: Package, color: 'indigo', detail: 'My Purchases' },
-            { label: 'Total Spent', val: formatPrice(totalSpent), icon: CreditCard, color: 'emerald', detail: 'All Time' }
+            { label: 'Active Repairs', val: activeRepairsCount, icon: Wrench, color: 'blue', desc: 'In progress' },
+            { label: 'Total Orders', val: orders.length, icon: Package, color: 'indigo', desc: 'Successful' },
+            { label: 'Total Investment', val: formatPrice(totalSpent), icon: CreditCard, color: 'emerald', desc: 'Account total' }
           ].map((stat, idx) => (
-            <div key={idx} className="bg-slate-900 border border-slate-800 p-8 rounded-[2rem] relative overflow-hidden group shadow-2xl hover:border-blue-600/30 transition-all duration-500">
-              <div className={`absolute top-0 right-0 w-32 h-32 bg-${stat.color}-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity`}></div>
-              <div className="relative z-10 flex items-center justify-between">
+            <div key={idx} className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
+              <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-2 font-tech">{stat.label}</div>
-                  <div className="text-3xl font-black text-white tracking-tighter uppercase italic text-glow">{stat.val}</div>
-                  <div className="text-[9px] font-black uppercase tracking-widest text-slate-600 mt-2 font-tech">{stat.detail}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">{stat.label}</div>
+                  <div className="text-2xl font-bold text-slate-900">{stat.val}</div>
+                  <div className="text-xs font-medium text-slate-500 mt-1">{stat.desc}</div>
                 </div>
-                <div className={`h-14 w-14 bg-slate-950 border border-slate-800 rounded-2xl flex items-center justify-center text-${stat.color}-500 shadow-inner group-hover:scale-110 transition-transform duration-500`}>
-                  <stat.icon className="h-6 w-6" />
+                <div className="h-12 w-12 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
+                  <stat.icon className="h-5 w-5" />
                 </div>
               </div>
             </div>
@@ -196,62 +193,57 @@ export default function Dashboard() {
         </div>
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-2xl flex items-center gap-3 mb-8 font-medium">
+          <div className="bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl flex items-center gap-3 mb-8 text-sm font-medium">
             <AlertCircle className="h-5 w-5" />
             {error}
           </div>
         )}
 
-        <div className="grid lg:grid-cols-2 gap-10">
-          {/* Repair Tickets Module */}
-          <section>
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Repairs Section */}
+          <section className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-black text-white flex items-center gap-3">
-                <ShieldCheck className="h-6 w-6 text-blue-600" />
-                Current Repairs
+              <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <Wrench className="h-5 w-5 text-blue-600" />
+                Your Repairs
               </h3>
-              <Link to="/repair-booking" className="text-xs font-black uppercase tracking-widest text-blue-500 hover:text-blue-400 transition">Book a Repair</Link>
+              <Link to="/repair-booking" className="text-xs font-bold text-blue-600 hover:underline">New Booking</Link>
             </div>
 
             {loading ? (
-              <div className="space-y-4 animate-pulse">
-                {[1, 2].map(i => <div key={i} className="h-28 bg-slate-900 rounded-3xl border border-slate-800"></div>)}
+              <div className="space-y-4">
+                {[1, 2].map(i => <div key={i} className="h-24 bg-slate-100 animate-pulse rounded-xl"></div>)}
               </div>
             ) : repairs.length === 0 ? (
-              <div className="bg-slate-900 border-2 border-dashed border-slate-800 rounded-3xl p-12 text-center">
-                <div className="w-16 h-16 bg-slate-950 border border-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Monitor className="w-8 h-8 text-slate-700" />
-                </div>
-                <p className="text-slate-500 font-bold tracking-tight">You don't have any repairs right now.</p>
-                <Link to="/repair-booking" className="mt-4 inline-block text-blue-500 font-bold text-sm">Book a repair →</Link>
+              <div className="bg-slate-50 border border-dashed border-slate-200 rounded-2xl p-10 text-center">
+                <p className="text-slate-500 text-sm font-medium">No active repair tickets.</p>
+                <Link to="/repair-booking" className="mt-3 inline-block text-blue-600 font-bold text-sm">Schedule Now</Link>
               </div>
             ) : (
               <div className="space-y-4">
                 {repairs.map(repair => (
-                  <div key={repair._id} className="bg-slate-900 border border-slate-800 rounded-3xl p-6 hover:border-blue-600/30 transition-all group relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                    <div className="flex justify-between items-start mb-4">
+                  <div key={repair._id} className="border border-slate-100 bg-slate-50/30 rounded-xl p-4 hover:border-blue-200 transition-colors">
+                    <div className="flex justify-between items-start mb-3">
                       <div>
-                        <div className="font-black text-white tracking-tight">{repair.deviceType} <span className="text-blue-600 text-xs mx-1">/</span> {repair.brand}</div>
-                        <div className="text-[10px] text-slate-500 font-black uppercase tracking-widest mt-0.5">{repair.model}</div>
+                        <div className="font-bold text-slate-900 text-sm">{repair.deviceType} <span className="text-slate-300 font-normal">|</span> {repair.brand}</div>
+                        <div className="text-xs text-slate-500 font-medium mt-0.5">{repair.model}</div>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border shadow-xl ${
-                        repair.status === 'Completed' ? 'bg-emerald-500/20 text-emerald-500 border-emerald-500/20' :
-                        repair.status === 'Pending' ? 'bg-blue-600/10 text-blue-500 border-blue-500/20' :
-                        'bg-amber-500/10 text-amber-500 border-amber-500/20'
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                        repair.status === 'Completed' ? 'bg-emerald-50 text-emerald-600' :
+                        repair.status === 'Pending' ? 'bg-blue-50 text-blue-600' :
+                        'bg-amber-50 text-amber-600'
                       }`}>
                         {repair.status}
                       </span>
                     </div>
-                    <div className="flex items-center gap-6 text-[11px] text-slate-400 font-bold border-t border-slate-800 pt-4">
-                      <div className="flex items-center gap-2"><Calendar className="h-3.5 w-3.5 text-blue-600" /> {new Date(repair.preferredDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</div>
-                      <div className="flex items-center gap-2"><Clock className="h-3.5 w-3.5 text-blue-600" /> {repair.preferredTime}</div>
+                    <div className="flex items-center gap-5 text-[11px] text-slate-500 font-semibold border-t border-slate-100 pt-3">
+                      <div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-blue-600/50" /> {new Date(repair.preferredDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</div>
+                      <div className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-blue-600/50" /> {repair.preferredTime}</div>
                       <button
                         onClick={() => handleDeleteRepair(repair._id)}
-                        className="flex items-center gap-1.5 ml-auto text-slate-600 hover:text-red-500 transition cursor-pointer px-3 py-1 rounded-lg hover:bg-red-500/10"
-                        title="Cancel this repair"
+                        className="ml-auto text-slate-400 hover:text-red-500 transition px-2 py-1"
                       >
-                        <Trash2 className="h-3.5 w-3.5" /> Cancel
+                        <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   </div>
@@ -260,64 +252,57 @@ export default function Dashboard() {
             )}
           </section>
 
-          {/* Laptop Inventory Module */}
-          <section>
+          {/* Orders Section */}
+          <section className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-black text-white flex items-center gap-3">
-                <ShoppingBag className="h-6 w-6 text-indigo-600" />
-                My Laptop Orders
+              <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <ShoppingBag className="h-5 w-5 text-blue-600" />
+                Device Orders
               </h3>
-              <Link to="/laptops" className="text-xs font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-400 transition">Go to Store</Link>
+              <Link to="/laptops" className="text-xs font-bold text-blue-600 hover:underline">Marketplace</Link>
             </div>
 
             {loading ? (
-              <div className="space-y-4 animate-pulse">
-                {[1, 2].map(i => <div key={i} className="h-28 bg-slate-900 rounded-3xl border border-slate-800"></div>)}
+              <div className="space-y-4">
+                {[1, 2].map(i => <div key={i} className="h-24 bg-slate-100 animate-pulse rounded-xl"></div>)}
               </div>
             ) : orders.length === 0 ? (
-              <div className="bg-slate-900 border-2 border-dashed border-slate-800 rounded-3xl p-12 text-center">
-                <div className="w-16 h-16 bg-slate-950 border border-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Laptop className="w-8 h-8 text-slate-700" />
-                </div>
-                <p className="text-slate-500 font-bold tracking-tight">You haven't ordered any laptops yet.</p>
-                <Link to="/laptops" className="mt-4 inline-block text-indigo-500 font-bold text-sm">Shop now →</Link>
+              <div className="bg-slate-50 border border-dashed border-slate-200 rounded-2xl p-10 text-center">
+                <p className="text-slate-500 text-sm font-medium">No hardware orders yet.</p>
+                <Link to="/laptops" className="mt-3 inline-block text-blue-600 font-bold text-sm">Shop Store</Link>
               </div>
             ) : (
               <div className="space-y-4">
                 {orders.map(order => (
-                  <div key={order._id} className="bg-slate-900 border border-slate-800 rounded-3xl p-6 hover:border-indigo-600/30 transition-all group overflow-hidden">
-                    <div className="flex justify-between items-center mb-4">
+                  <div key={order._id} className="border border-slate-100 bg-slate-50/30 rounded-xl p-4 hover:border-blue-200 transition-colors">
+                    <div className="flex justify-between items-center mb-3">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden flex items-center justify-center relative shadow-xl">
+                        <div className="w-10 h-10 bg-white border border-slate-200 rounded-lg overflow-hidden flex items-center justify-center p-1">
                           {order.laptopId?.image ? 
-                            <img src={order.laptopId.image} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" /> :
-                            <Laptop className="w-6 h-6 text-slate-700" />
+                            <img src={order.laptopId.image} className="w-full h-full object-contain" /> :
+                            <Laptop className="w-5 h-5 text-slate-300" />
                           }
-                          <div className="absolute inset-0 bg-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         </div>
                         <div>
-                          <div className="font-black text-white text-sm tracking-tight">{order.laptopId?.name || "Archived Device"}</div>
-                          <div className="text-[10px] text-indigo-500 font-black uppercase tracking-widest">{order.laptopId?.brand || "Premium Hardware"}</div>
+                          <div className="font-bold text-slate-900 text-sm tracking-tight">{order.laptopId?.name || "Premium Device"}</div>
+                          <div className="text-[10px] text-blue-600 font-bold uppercase tracking-wider">{order.laptopId?.brand}</div>
                         </div>
                       </div>
-                      <span className="bg-indigo-600/10 text-indigo-500 border border-indigo-600/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl">
+                      <span className="bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
                         {order.status}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between text-xs font-bold border-t border-slate-800 pt-4">
-                      <div className="text-slate-500 flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-indigo-600" /> {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long' })}
+                    <div className="flex items-center justify-between text-[11px] font-semibold border-t border-slate-100 pt-3">
+                      <div className="text-slate-400 flex items-center gap-1.5 font-medium">
+                        <Calendar className="h-3.5 w-3.5" /> {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                       </div>
-                      <div className="flex items-center gap-3">
-                        <div className="text-white flex items-center gap-2 px-3 py-1 bg-slate-950 border border-slate-800 rounded-xl shadow-lg">
-                          <CreditCard className="h-3.5 w-3.5 text-indigo-500" /> {formatPrice(order.laptopId?.price)}
-                        </div>
+                      <div className="flex items-center gap-4">
+                        <div className="text-slate-900 font-bold">{formatPrice(order.laptopId?.price)}</div>
                         <button
                           onClick={() => handleDeleteOrder(order._id)}
-                          className="flex items-center gap-1.5 text-slate-600 hover:text-red-500 transition cursor-pointer px-3 py-1 rounded-lg hover:bg-red-500/10 text-[10px] font-black uppercase tracking-widest"
-                          title="Cancel this order"
+                          className="text-slate-300 hover:text-red-500 transition"
                         >
-                          <Trash2 className="h-3.5 w-3.5" /> Cancel
+                          <Trash2 className="h-3.5 w-3.5" />
                         </button>
                       </div>
                     </div>
@@ -328,12 +313,6 @@ export default function Dashboard() {
           </section>
         </div>
       </main>
-
-      {/* Global CSS for hidden scrollbar */}
-      <style dangerouslySetInnerHTML={{ __html: `
-        ::-webkit-scrollbar { width: 0; background: transparent; }
-        ::-webkit-scrollbar-thumb { display: none; }
-      `}} />
     </div>
   );
 }

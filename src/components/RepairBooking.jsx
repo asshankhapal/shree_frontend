@@ -6,7 +6,7 @@ import {
   Wrench, LogOut, User, Calendar, Clock, ChevronRight, X,
   CheckCircle2, ArrowLeft, Monitor, Smartphone, Tablet,
   Laptop, AlertCircle, LayoutDashboard, ShoppingBag, Sparkles, ShieldCheck,
-  Cpu
+  Cpu, Activity
 } from 'lucide-react';
 
 const deviceTypes = [
@@ -24,52 +24,6 @@ const timeSlots = [
   { value: '2:00 PM - 4:00 PM', label: '2:00 - 4:00 PM', period: 'Afternoon' },
   { value: '4:00 PM - 6:00 PM', label: '4:00 - 6:00 PM', period: 'Evening' },
 ];
-
-const repairPricing = {
-  Laptop: {
-    
-    services: [
-      { name: 'Diagnostics'},
-      { name: 'Screen Repair' },
-      { name: 'Battery Replacement' },
-      { name: 'Keyboard Repair' },
-      { name: 'Motherboard Repair'},
-    ],
-  },
-  Desktop: {
-    
-    services: [
-      { name: 'Diagnostics'},
-      { name: 'HDD/SSD Replacement', },
-      { name: 'RAM Upgrade',  },
-      { name: 'PSU Replacement', },
-      { name: 'Motherboard Repair', },
-    ],
-  },
-  Phone: {
-    
-    services: [
-      { name: 'Diagnostics'},
-      { name: 'Screen Repair'},
-      { name: 'Battery Replacement'},
-      { name: 'Charging Port Fix'},
-      { name: 'Water Damage Repair'},
-    ],
-  },
-  Tablet: {
-    
-    services: [
-      { name: 'Diagnostics', },
-      { name: 'Screen Repair',  },
-      { name: 'Battery Replacement', },
-      { name: 'Charging Port Fix', },
-      { name: 'Software Restore', },
-    ],
-  },
-};
-
-
-
 
 export default function RepairBooking() {
   const { user, logout } = useAuth();
@@ -131,8 +85,6 @@ export default function RepairBooking() {
     setStep(s => s + 1);
   };
 
-  // Estimated price calculation
-  
   const handleSubmit = async () => {
     const validationError = validateStep();
     if (validationError) {
@@ -158,35 +110,35 @@ export default function RepairBooking() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex text-sm selection:bg-blue-500/30">
-      {/* Sidebar - Enhanced with Circuit Pattern */}
-      <aside className="w-64 bg-slate-900/50 backdrop-blur-xl border-r border-slate-800 flex flex-col sticky top-0 h-screen shrink-0 overflow-y-auto hidden lg:flex bg-circuit">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex text-sm selection:bg-blue-600/10">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen shrink-0 overflow-y-auto hidden lg:flex shadow-sm">
         <div className="p-6">
-          <div className="flex items-center space-x-3 mb-10">
-            <div className="h-10 w-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all group-hover:scale-110">
-              <Cpu className="h-5 w-5 text-white animate-pulse" />
+          <div className="flex items-center space-x-3 mb-10 group cursor-pointer">
+            <div className="h-10 w-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-600/20 transition-all">
+              <Wrench className="h-5 w-5 text-white" />
             </div>
             <div>
-              <div className="font-extrabold text-white tracking-widest uppercase italic">Shree <span className="text-blue-500">Suite</span></div>
-              <div className="text-[9px] text-slate-500 font-black uppercase tracking-[0.3em] leading-none mt-1">
-                Repair Shop
+              <div className="font-bold text-slate-900 text-lg tracking-tight">Support <span className="text-blue-600">Hub</span></div>
+              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none mt-0.5">
+                Authorized Repair
               </div>
             </div>
           </div>
 
-          <nav className="space-y-1">
+          <nav className="space-y-1.5">
             {[
               { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
               { id: "store", label: "Laptop Store", icon: ShoppingBag, path: "/laptops" },
-              { id: "booking", label: "Fix My Device", icon: Wrench, path: "/repair-booking", active: true },
+              { id: "booking", label: "Repair Booking", icon: Wrench, path: "/repair-booking", active: true },
             ].map((item) => (
               <Link
                 key={item.id}
                 to={item.path}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
+                className={`w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all ${
                   item.active
-                    ? "bg-blue-600/10 text-blue-400 border border-blue-500/20"
-                    : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
                 <item.icon className="h-5 w-5" />
@@ -196,45 +148,43 @@ export default function RepairBooking() {
           </nav>
         </div>
 
-        <div className="mt-auto p-6 border-t border-slate-800">
-          <div className="flex items-center gap-3 mb-6 px-2">
-            <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center border border-slate-700">
-              <User className="w-5 h-5 text-blue-400" />
+        <div className="mt-auto p-6 border-t border-slate-100 bg-slate-50/50">
+          <div className="flex items-center gap-3 mb-6 px-1">
+            <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center border border-slate-200 shadow-sm text-blue-600">
+               <User className="w-5 h-5" />
             </div>
             <div className="overflow-hidden">
-              <div className="font-bold truncate text-white">{user?.username || 'Client'}</div>
-              <div className="text-[10px] text-slate-500 font-medium tracking-tight">User Account</div>
+              <div className="text-sm font-bold truncate text-slate-900">{user?.username || 'Client'}</div>
+              <div className="text-[10px] text-slate-500 font-semibold tracking-wide">Premium Client</div>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-red-500/10 hover:text-red-400 border border-slate-700 py-2.5 rounded-xl transition-all font-bold text-slate-400"
+            className="w-full flex items-center justify-center gap-2 bg-white hover:bg-red-50 hover:text-red-500 border border-slate-200 py-2.5 rounded-xl transition-all font-bold text-xs text-slate-600 shadow-sm"
           >
             <LogOut className="h-4 w-4" />
-            <span>Logout</span>
+            <span>Sign Out</span>
           </button>
         </div>
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-4 md:p-8 overflow-y-auto relative">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2 animate-tech-pulse"></div>
-        
-        <header className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4 relative z-10">
+      <main className="flex-1 p-6 md:p-10 overflow-y-auto relative">
+        <header className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-[10px] font-black uppercase tracking-widest mb-4 shadow-[0_0_15px_rgba(59,130,246,0.1)]">
-               <div className="w-2 h-2 rounded-full bg-blue-600 animate-ping"></div>
-               System Status: Online
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider mb-3">
+               <Activity className="w-3.5 h-3.5" />
+               Scheduling Hub: Online
             </div>
-            <h1 className="text-4xl font-black text-white tracking-tighter uppercase italic">
-              Book a <span className="text-blue-600">Repair</span>
+            <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
+              Service <span className="text-blue-600">Scheduler</span>
             </h1>
-            <p className="text-slate-500 font-medium text-xs mt-2 tracking-wide uppercase font-tech">Expert Tech Support</p>
+            <p className="text-slate-500 font-medium text-sm mt-1">Book premium diagnostics and hardware repair.</p>
           </div>
           
           <Link
             to="/dashboard"
-            className="flex items-center gap-2 bg-slate-900 border border-slate-800 text-slate-400 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-800 hover:text-white transition-all shadow-xl self-start"
+            className="flex items-center gap-2 bg-white border border-slate-200 text-slate-500 px-5 py-2.5 rounded-xl font-bold text-xs hover:border-slate-300 hover:text-slate-900 transition-all shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Dashboard</span>
@@ -242,36 +192,37 @@ export default function RepairBooking() {
         </header>
 
         {success ? (
-          <div className="max-w-xl mx-auto py-10">
-            <div className="bg-slate-900 border border-slate-800 rounded-[3rem] p-10 text-center shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-              
-              <div className="w-20 h-20 bg-emerald-500/10 border border-emerald-500/20 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-emerald-500/10">
-                <CheckCircle2 className="w-10 h-10 text-emerald-500" />
+          <div className="max-w-xl mx-auto py-10 animate-in fade-in zoom-in-95 duration-300">
+            <div className="bg-white border border-slate-200 rounded-[2.5rem] p-10 text-center shadow-lg relative overflow-hidden">
+              <div className="w-16 h-16 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-8">
+                <CheckCircle2 className="w-8 h-8 text-emerald-600" />
               </div>
               
-              <h2 className="text-3xl font-black text-white mb-3 uppercase tracking-tight">Done!</h2>
-              <p className="text-slate-400 font-medium mb-10 leading-relaxed px-4">Your repair is booked. We'll see you soon!</p>
+              <h2 className="text-2xl font-bold text-slate-900 mb-2">Booking Success</h2>
+              <p className="text-slate-500 text-sm font-medium mb-10 leading-relaxed px-4">Your repair ticket has been generated. Our hardware engineers will review your request shortly.</p>
 
-              <div className="bg-slate-950 border border-slate-800 rounded-3xl p-6 text-left space-y-4 mb-10">
-                <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 mb-2 border-b border-white/5 pb-1 inline-block">Booking Summary</div>
-                <div className="flex justify-between font-bold">
-                  <span className="text-slate-500 text-xs">Device Type</span>
-                  <span className="text-white">{form.deviceType} <span className="text-slate-700">/</span> {form.brand}</span>
+              <div className="bg-slate-50 rounded-2xl p-6 text-left space-y-4 mb-10 border border-slate-100">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1 border-b border-slate-200 pb-1.5">Booking Intelligence</div>
+                <div className="flex justify-between items-center font-bold">
+                  <span className="text-slate-500 text-xs">Assigned Unit</span>
+                  <span className="text-slate-900 text-sm">{form.deviceType} <span className="text-slate-300 px-1">/</span> {form.brand}</span>
                 </div>
-                <div className="flex justify-between font-bold">
-                  <span className="text-slate-500 text-xs">Date & Time</span>
-                  <span className="text-white">{new Date(form.preferredDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} <span className="text-slate-700">@</span> {form.preferredTime.split('-')[0]}</span>
+                <div className="flex justify-between items-center font-bold">
+                  <span className="text-slate-500 text-xs">Preferred Slot</span>
+                  <span className="text-slate-900 text-sm">
+                    {new Date(form.preferredDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                    <span className="text-slate-400 font-normal mx-2">@</span> 
+                    {form.preferredTime.split('-')[0]}
+                  </span>
                 </div>
-
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/dashboard"
-                  className="flex-1 bg-blue-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-blue-700 transition shadow-xl"
+                  className="flex-1 bg-blue-600 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-blue-700 transition shadow-lg shadow-blue-600/20"
                 >
-                  View My Repairs
+                  Manage Tickets
                 </Link>
                 <button
                   onClick={() => {
@@ -289,9 +240,9 @@ export default function RepairBooking() {
                       preferredTime: '',
                     });
                   }}
-                  className="flex-1 bg-slate-800 text-slate-400 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] border border-slate-700 hover:bg-slate-700 hover:text-white transition"
+                  className="flex-1 bg-white hover:bg-slate-50 text-slate-500 py-4 rounded-xl font-bold uppercase tracking-widest text-xs border border-slate-200 transition"
                 >
-                  Book Another Repair
+                  New Request
                 </button>
               </div>
             </div>
@@ -299,37 +250,35 @@ export default function RepairBooking() {
         ) : (
           <div className="max-w-4xl mx-auto pb-20">
             {/* Professional Stepper */}
-            <div className="flex items-center justify-between mb-12 max-w-2xl mx-auto bg-slate-900/50 p-4 rounded-3xl border border-slate-800">
+            <div className="flex items-center justify-between mb-12 max-w-2xl mx-auto px-6">
               {[
-                { num: 1, label: 'Device Info' },
-                { num: 2, label: 'Problem Details' },
-                { num: 3, label: 'When' },
+                { num: 1, label: 'Categorize' },
+                { num: 2, label: 'Diagnostics' },
+                { num: 3, label: 'Schedule' },
               ].map((s, i) => (
                 <React.Fragment key={s.num}>
-                  <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black text-xs transition-all ${
+                  <div className="flex flex-col items-center gap-2">
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs transition-all ${
                       step >= s.num
-                        ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/10'
-                        : 'bg-slate-950 border border-slate-800 text-slate-600'
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                        : 'bg-white border border-slate-200 text-slate-300 shadow-sm'
                     }`}>
                       {step > s.num ? <CheckCircle2 className="w-5 h-5" /> : s.num}
                     </div>
-                    <span className={`text-[10px] font-black uppercase tracking-widest hidden sm:block ${step >= s.num ? 'text-white' : 'text-slate-600'}`}>
+                    <span className={`text-[10px] font-bold uppercase tracking-wider ${step >= s.num ? 'text-slate-900' : 'text-slate-400'}`}>
                       {s.label}
                     </span>
                   </div>
                   {i < 2 && (
-                    <div className={`flex-1 h-px mx-4 ${step > s.num ? 'bg-blue-600' : 'bg-slate-800'}`}></div>
+                    <div className={`flex-1 h-0.5 mx-4 -mt-6 transition-all duration-500 ${step > s.num ? 'bg-blue-600' : 'bg-slate-200'}`}></div>
                   )}
                 </React.Fragment>
               ))}
             </div>
 
-            <div className="bg-slate-900 border border-slate-800 rounded-[3rem] shadow-2xl relative overflow-hidden min-h-[500px] flex flex-col">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/5 blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
-              
+            <div className="bg-white border border-slate-200 rounded-[2.5rem] shadow-sm relative overflow-hidden min-h-[500px] flex flex-col">
               {error && (
-                <div className="mx-8 mt-8 bg-red-600/10 border border-red-600/20 text-red-500 p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-3">
+                <div className="mx-8 mt-8 bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl text-[10px] font-bold uppercase tracking-wider flex items-center gap-3">
                   <AlertCircle className="w-4 h-4 shrink-0" />
                   {error}
                 </div>
@@ -338,14 +287,14 @@ export default function RepairBooking() {
               <div className="flex-1 p-8 md:p-12">
                 {/* Step 1: Device Identification */}
                 {step === 1 && (
-                  <div className="space-y-10">
+                  <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-300">
                     <div>
-                      <h3 className="text-2xl font-black text-white tracking-tight uppercase mb-2">Select Your Device</h3>
-                      <p className="text-slate-500 font-medium">Tell us what needs fixing.</p>
+                      <h3 className="text-2xl font-bold text-slate-900 tracking-tight uppercase mb-1">Asset Classification</h3>
+                      <p className="text-slate-500 text-sm font-medium">Select the hardware requiring professional support.</p>
                     </div>
 
                     <div className="space-y-4">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">What are we fixing?</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Hardware Category</label>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         {deviceTypes.map(dt => {
                           const Icon = dt.icon;
@@ -355,14 +304,14 @@ export default function RepairBooking() {
                               key={dt.value}
                               type="button"
                               onClick={() => updateForm('deviceType', dt.value)}
-                              className={`flex flex-col items-center gap-3 py-6 rounded-3xl font-black transition-all group relative overflow-hidden ${
+                              className={`flex flex-col items-center gap-3 py-6 rounded-2xl font-bold transition-all group relative overflow-hidden border ${
                                 isActive
-                                  ? 'bg-blue-600 text-white shadow-2xl shadow-blue-500/20'
-                                  : 'bg-slate-950 border border-slate-800 text-slate-500 hover:border-slate-700 hover:bg-slate-900 hover:text-slate-300'
+                                  ? 'bg-blue-50 border-blue-600 text-blue-600 shadow-sm'
+                                  : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300 hover:text-slate-600 shadow-sm'
                               }`}
                             >
-                              <Icon className={`w-7 h-7 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
-                              <span className="text-[10px] uppercase tracking-widest">{dt.label}</span>
+                              <Icon className={`w-7 h-7 transition-all duration-300 ${isActive ? 'scale-110 text-blue-600' : 'text-slate-300 group-hover:text-slate-500 group-hover:scale-105'}`} />
+                              <span className="text-[10px] uppercase tracking-widest leading-none">{dt.label}</span>
                             </button>
                           );
                         })}
@@ -370,8 +319,8 @@ export default function RepairBooking() {
                     </div>
 
                     <div className="space-y-4">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Brand</label>
-                      <div className="flex flex-wrap gap-3">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Manufacturer Authorization</label>
+                      <div className="flex flex-wrap gap-2.5">
                         {brands.map(b => {
                           const isActive = form.brand === b;
                           return (
@@ -379,10 +328,10 @@ export default function RepairBooking() {
                               key={b}
                               type="button"
                               onClick={() => updateForm('brand', b)}
-                              className={`px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                              className={`px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border ${
                                 isActive
-                                  ? 'bg-white text-slate-950 shadow-xl'
-                                  : 'bg-slate-950 border border-slate-800 text-slate-500 hover:bg-slate-900 hover:text-slate-300'
+                                  ? 'bg-slate-900 border-slate-900 text-white shadow-md'
+                                  : 'bg-white border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-slate-600 shadow-sm'
                               }`}
                             >
                               {b}
@@ -392,14 +341,14 @@ export default function RepairBooking() {
                       </div>
                     </div>
 
-                    <div className="space-y-4">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Model Name</label>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Hardware Model / Serial</label>
                       <input
                         type="text"
                         value={form.model}
                         onChange={(e) => updateForm('model', e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-sm font-bold text-white focus:border-blue-600 outline-none transition placeholder:text-slate-800"
-                        placeholder="e.g. TH-500 enterprise series"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition"
+                        placeholder="e.g. Precision 5570 / SN: XXXX"
                       />
                     </div>
                   </div>
@@ -407,58 +356,58 @@ export default function RepairBooking() {
 
                 {/* Step 2: Problem Details */}
                 {step === 2 && (
-                  <div className="space-y-10">
+                  <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-300">
                     <div>
-                      <h3 className="text-2xl font-black text-white tracking-tight uppercase mb-2">Problem Details</h3>
-                      <p className="text-slate-500 font-medium">Tell us about the issue and how to reach you.</p>
+                      <h3 className="text-2xl font-bold text-slate-900 tracking-tight uppercase mb-1">Incident Report</h3>
+                      <p className="text-slate-500 text-sm font-medium">Please detail the failure symptoms for our bench techs.</p>
                     </div>
 
-                    <div className="space-y-4">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">What's wrong?</label>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Fault Description</label>
                       <textarea
                         value={form.issueDescription}
                         onChange={(e) => updateForm('issueDescription', e.target.value)}
                         rows={5}
                         required
-                        className="w-full bg-slate-950 border border-slate-800 rounded-3xl p-5 font-bold text-white focus:border-blue-600 outline-none transition resize-none placeholder:text-slate-800"
-                        placeholder="Explain the problem..."
+                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-5 font-medium text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition resize-none leading-relaxed"
+                        placeholder="Describe the performance issues or physical damage..."
                       />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2 text-left">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Your Name</label>
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Officer Name</label>
                         <input
                           type="text"
                           value={form.name}
                           onChange={(e) => updateForm('name', e.target.value)}
                           required
-                          className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 font-bold text-white focus:border-blue-600 outline-none transition placeholder:text-slate-800"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition"
                           placeholder="Your Name"
                         />
                       </div>
                       <div className="space-y-2 text-left">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Email Address</label>
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Corporate Email</label>
                         <input
                           type="email"
                           value={form.email}
                           onChange={(e) => updateForm('email', e.target.value)}
                           required
-                          className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 font-bold text-white focus:border-blue-600 outline-none transition placeholder:text-slate-800"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition"
                           placeholder="email@example.com"
                         />
                       </div>
                     </div>
 
-                    <div className="space-y-4">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Phone Number</label>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Secure Contact</label>
                       <input
                         type="tel"
                         value={form.phone}
                         onChange={(e) => updateForm('phone', e.target.value)}
                         required
-                        className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 font-bold text-white focus:border-blue-600 outline-none transition placeholder:text-slate-800"
-                        placeholder="+91 XXXXX XXXXX"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition"
+                        placeholder="+91 XXXX XXXX"
                       />
                     </div>
                   </div>
@@ -466,14 +415,14 @@ export default function RepairBooking() {
 
                 {/* Step 3: Pick a Time */}
                 {step === 3 && (
-                  <div className="space-y-10">
+                  <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-300">
                     <div>
-                      <h3 className="text-2xl font-black text-white tracking-tight uppercase mb-2">Pick a Time</h3>
-                      <p className="text-slate-500 font-medium">Select a date and time for your repair.</p>
+                      <h3 className="text-2xl font-bold text-slate-900 tracking-tight uppercase mb-1">Dispatch Window</h3>
+                      <p className="text-slate-500 text-sm font-medium">Select a slot for on-site visit or hardware drop-off.</p>
                     </div>
 
-                    <div className="space-y-4">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Repair Date</label>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Appointment Date</label>
                       <div className="relative">
                          <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-600" />
                          <input
@@ -482,16 +431,16 @@ export default function RepairBooking() {
                           onChange={(e) => updateForm('preferredDate', e.target.value)}
                           min={getMinDate()}
                           required
-                          className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 pl-12 font-black text-white focus:border-blue-600 outline-none transition [color-scheme:dark]"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 pl-12 text-sm font-bold text-slate-800 focus:border-blue-600 outline-none transition"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-6">
                       <div className="flex items-center justify-between">
-                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Available Times</label>
-                         <div className="flex items-center gap-2 text-[10px] font-bold text-blue-500 italic">
-                            <Clock className="w-3.5 h-3.5" /> All windows are in IST
+                         <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Available Intervals</label>
+                         <div className="flex items-center gap-1.5 text-[10px] font-bold text-blue-600 opacity-60">
+                            <Clock className="w-3.5 h-3.5" /> All slots are IST window
                          </div>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -502,58 +451,56 @@ export default function RepairBooking() {
                               key={ts.value}
                               type="button"
                               onClick={() => updateForm('preferredTime', ts.value)}
-                              className={`p-6 rounded-[2rem] text-left transition-all relative overflow-hidden group ${
+                              className={`p-6 rounded-2xl text-left transition-all border ${
                                 isActive
-                                  ? 'bg-blue-600 text-white shadow-2xl shadow-blue-500/20'
-                                  : 'bg-slate-950 border border-slate-800 text-slate-600 hover:bg-slate-900 group'
+                                  ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-600/20'
+                                  : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300 hover:bg-slate-50 shadow-sm'
                               }`}
                             >
-                              <div className={`text-[10px] font-black uppercase tracking-widest mb-1 ${
-                                isActive ? 'text-blue-200' : 'text-slate-600'
+                              <div className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${
+                                isActive ? 'text-blue-100' : 'text-slate-400'
                               }`}>{ts.period}</div>
-                              <div className="font-black text-lg tracking-tight">{ts.label}</div>
+                              <div className="font-bold text-lg tracking-tight">{ts.label}</div>
                             </button>
                           );
                         })}
                       </div>
                     </div>
-                    
-
                   </div>
                 )}
               </div>
 
               {/* Action Bar */}
-              <div className="p-8 border-t border-slate-800 flex items-center justify-between gap-6 bg-slate-950/30">
+              <div className="p-8 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
                 {step > 1 ? (
                   <button
                     onClick={() => { setStep(s => s - 1); setError(''); }}
-                    className="h-14 px-8 bg-slate-800 text-slate-400 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-700 hover:text-white transition-all shadow-xl"
+                    className="h-12 px-6 bg-white text-slate-500 rounded-xl font-bold uppercase tracking-widest text-[10px] border border-slate-200 hover:bg-slate-100 transition-all shadow-sm"
                   >
-                    Back
+                    Previous Step
                   </button>
                 ) : (
-                  <div></div>
+                  <div />
                 )}
 
                 {step < 3 ? (
                   <button
                     onClick={nextStep}
-                    className="h-14 px-10 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] flex items-center gap-3 shadow-2xl shadow-blue-500/20 hover:bg-blue-700 transition"
+                    className="h-12 px-8 bg-blue-600 text-white rounded-xl font-bold uppercase tracking-widest text-[10px] flex items-center gap-2.5 shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition"
                   >
-                    <span>Continue</span>
-                    <ChevronRight className="w-5 h-5" />
+                    <span>Proceed Information</span>
+                    <ChevronRight className="w-4 h-4" />
                   </button>
                 ) : (
                   <button
                     onClick={handleSubmit}
                     disabled={submitting}
-                    className="h-14 px-10 bg-white text-slate-950 rounded-2xl font-black uppercase tracking-widest text-[10px] flex items-center gap-3 shadow-2xl hover:bg-slate-200 transition disabled:opacity-50"
+                    className="h-12 px-8 bg-slate-900 text-white rounded-xl font-bold uppercase tracking-widest text-[10px] flex items-center gap-2.5 shadow-xl hover:bg-slate-800 transition disabled:opacity-50"
                   >
-                    {submitting ? 'Sending...' : (
+                    {submitting ? 'Authenticating Request...' : (
                       <>
-                        <span>Confirm Booking</span>
-                        <CheckCircle2 className="w-5 h-5" />
+                        <span>Finalize Booking</span>
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                       </>
                     )}
                   </button>
@@ -563,16 +510,7 @@ export default function RepairBooking() {
           </div>
         )}
       </main>
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        ::-webkit-scrollbar { width: 0; background: transparent; }
-        ::-webkit-scrollbar-thumb { display: none; }
-        input[type="date"]::-webkit-calendar-picker-indicator {
-          filter: invert(1);
-          opacity: 0.5;
-          cursor: pointer;
-        }
-      `}} />
     </div>
   );
 }
+

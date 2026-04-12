@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Lock, Mail, ChevronRight, Wrench, AlertCircle, Shield, Activity } from "lucide-react";
+import { Lock, Mail, ChevronRight, Wrench, AlertCircle, Shield, Activity, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function Input({ icon, type, value, onChange, placeholder, autoComplete }) {
   return (
     <div className="relative group">
-      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500 transition-colors group-focus-within:text-blue-500">
+      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 transition-colors group-focus-within:text-blue-500">
         {React.createElement(icon, { className: "h-4 w-4" })}
       </div>
       <input
-        className="w-full rounded-2xl border border-slate-800 bg-slate-950 py-3.5 pl-11 pr-4 text-sm text-white placeholder:text-slate-600 outline-none ring-0 transition-all focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10"
+        className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3.5 pl-11 pr-4 text-sm text-slate-900 placeholder:text-slate-300 outline-none ring-0 transition-all focus:border-blue-600 focus:bg-white shadow-inner"
         type={type}
         value={value}
         onChange={onChange}
@@ -51,31 +52,43 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-white text-slate-800 font-sans flex flex-col items-center justify-center p-6 relative overflow-hidden">
       {/* Background Decorative Elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-1/3 h-[500px] bg-blue-50/50 blur-[120px] rounded-full pointer-events-none -z-0"></div>
+      <div className="absolute bottom-0 left-0 w-1/4 h-[400px] bg-slate-50 blur-[100px] rounded-full pointer-events-none -z-0"></div>
       
       <div className="max-w-md w-full relative z-10">
-        <div className="text-center mb-12">
-          <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-600 shadow-2xl shadow-blue-600/20 mb-6 transition-transform hover:scale-110">
-            <Shield className="h-8 w-8 text-white" />
-          </div>
-          <div className="text-[10px] font-black tracking-[0.3em] text-blue-500 uppercase mb-2">Secure Gateway</div>
-          <h1 className="text-4xl font-black text-white tracking-tight uppercase">Admin Login</h1>
-          <p className="text-slate-500 mt-3 font-medium text-sm">Managed by Shree Enterprises Infrastructure</p>
+        {/* Back Link */}
+        <div className="mb-10">
+           <Link to="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-blue-600 transition-colors text-xs font-bold uppercase tracking-widest">
+              <ArrowLeft className="w-4 h-4" />
+              Return to Portal
+           </Link>
         </div>
 
-        <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-black/40">
+        <div className="text-center mb-10">
+          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-900 shadow-xl mb-6">
+            <Shield className="h-7 w-7 text-white" />
+          </div>
+          <div className="text-[10px] font-bold tracking-[0.3em] text-blue-600 uppercase mb-2">Internal Framework</div>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">System Node <span className="text-blue-600">Admin</span></h1>
+          <p className="text-slate-400 mt-2 font-medium text-sm">Enterprise Infrastructure Authentication</p>
+        </div>
+
+        <div className="bg-white border border-slate-100 p-8 md:p-10 rounded-[2rem] shadow-2xl relative overflow-hidden">
+          {/* Subtle accent line */}
+          <div className="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
+
           {error && (
-            <div className="mb-10 bg-red-500/10 border border-red-500/20 text-red-400 p-5 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
-               <div className="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+            <div className="mb-8 bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+               <AlertCircle className="w-4 h-4" />
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2.5">
-              <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Administrative Identity</label>
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Management Identity</label>
               <Input
                 icon={Mail}
                 type="email"
@@ -87,8 +100,8 @@ export default function AdminLogin() {
               />
             </div>
 
-            <div className="space-y-2.5">
-              <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Access Token</label>
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Administrative Credential</label>
               <Input
                 icon={Lock}
                 type="password"
@@ -104,9 +117,9 @@ export default function AdminLogin() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-14 bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-2xl transition-all flex items-center justify-center gap-3 shadow-2xl shadow-blue-600/20 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full h-14 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg shadow-blue-600/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span>{loading ? "Decrypting..." : "Initialize Session"}</span>
+                <span>{loading ? "Decrypting Protocol..." : "Initialize Session"}</span>
                 <ChevronRight className="h-5 w-5" />
               </button>
             </div>
@@ -114,19 +127,19 @@ export default function AdminLogin() {
         </div>
 
         <div className="mt-12 flex flex-col items-center gap-6">
-          <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span>Security Status: Hyper-Active</span>
+          <div className="flex items-center gap-2.5 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+            <Activity className="w-3.5 h-3.5 text-emerald-500 animate-pulse" />
+            <span>Infrastructure Status: Optimal</span>
           </div>
           
-          <p className="text-slate-600 text-[9px] font-black uppercase tracking-[0.4em] text-center border-t border-slate-900 pt-6 px-10 leading-relaxed">
-            Restricted Administrative Layer. Unauthorized intervention is strictly prohibited by security protocol.
-          </p>
+          <div className="w-full border-t border-slate-100 pt-8 mt-4">
+              <p className="text-slate-300 text-[9px] font-bold uppercase tracking-[0.3em] text-center leading-relaxed max-w-[280px] mx-auto">
+                Confidential Node Access. All administrative interactions are logged and encrypted.
+              </p>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+

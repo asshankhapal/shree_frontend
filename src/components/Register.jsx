@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { ChevronRight, Eye, EyeOff, Mail, User, Lock, ShieldCheck, Wrench, Sparkles, Globe } from "lucide-react";
+import { ChevronRight, Eye, EyeOff, Mail, User, Lock, ShieldCheck, Wrench, Sparkles, Globe, Cpu } from "lucide-react";
 
 function Input({ icon, type, value, onChange, placeholder, autoComplete }) {
   return (
     <div className="relative group">
-      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500 transition-colors group-focus-within:text-blue-500">
+      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 transition-colors group-focus-within:text-blue-600">
         {React.createElement(icon, { className: "h-4 w-4" })}
       </div>
       <input
-        className="w-full rounded-2xl border border-slate-800 bg-slate-950 py-3.5 pl-11 pr-4 text-sm text-white placeholder:text-slate-600 outline-none ring-0 transition-all focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10"
+        className="w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm text-slate-800 placeholder:text-slate-400 outline-none ring-0 transition-all focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5"
         type={type}
         value={value}
         onChange={onChange}
@@ -66,97 +66,95 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col">
-      <header className="bg-slate-950/50 backdrop-blur-xl border-b border-slate-900 sticky top-0 z-50">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col selection:bg-blue-600/10">
+      <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="flex items-center space-x-3 group cursor-pointer">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 shadow-lg shadow-blue-500/20 transition-transform group-hover:scale-110">
-              <Wrench className="h-5 w-5 text-white" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 shadow-lg shadow-blue-600/20 transition-transform group-hover:scale-105">
+              <Cpu className="h-5 w-5 text-white" />
             </div>
             <div>
-              <div className="text-xl font-black text-white tracking-tight uppercase">Shree <span className="text-blue-600">Enterprises</span></div>
-              <div className="-mt-1 text-[10px] text-slate-500 font-black tracking-widest uppercase opacity-70">
+              <div className="text-xl font-bold text-slate-900 tracking-tight">Shree <span className="text-blue-600">Enterprises</span></div>
+              <div className="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">
                 Customer Portal
               </div>
             </div>
           </div>
 
-          <nav className="hidden items-center space-x-8 text-[11px] font-black uppercase tracking-widest text-slate-500 md:flex">
-             <Link to="/" className="hover:text-white transition-colors">
+          <nav className="hidden items-center space-x-8 text-sm font-medium text-slate-600 md:flex">
+             <Link to="/" className="hover:text-blue-600 transition-colors">
               Sign In
             </Link>
           </nav>
         </div>
       </header>
 
-      <main className="flex-1 mx-auto flex min-h-[calc(100vh-80px)] max-w-7xl items-center justify-center px-6 py-12 pb-24 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none"></div>
-        
+      <main className="flex-1 mx-auto flex max-w-7xl items-center justify-center px-6 py-12 md:py-20 relative overflow-hidden">
         <div className="w-full max-w-lg relative z-10">
-          <div className="rounded-[2.5rem] border border-slate-800 bg-slate-900/50 backdrop-blur-xl p-8 shadow-2xl md:p-12">
-            <div className="text-[10px] font-black tracking-[0.3em] text-blue-500 uppercase mb-3 text-center">Join Us</div>
-            <h2 className="text-4xl font-black tracking-tight text-white mb-2 uppercase text-center">Create Account</h2>
-            <p className="text-slate-500 font-medium text-sm mb-10 leading-relaxed text-center px-4">
-              Create an account to manage your repairs and orders.
-            </p>
+          <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-xl shadow-slate-200/50 md:p-12">
+            <div className="mb-8 text-center">
+              <div className="text-xs font-bold tracking-widest text-blue-600 uppercase mb-2">New Account</div>
+              <h2 className="text-3xl font-bold text-slate-900">Get Started</h2>
+              <p className="text-slate-500 font-medium text-sm mt-2">
+                Join Shree Enterprises for premium tech repair tracking.
+              </p>
+            </div>
 
             {error && (
-              <div className="mb-10 rounded-2xl border border-red-500/20 bg-red-500/10 p-5 text-[10px] font-black uppercase tracking-widest text-red-500 flex items-center gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
-                <div className="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+              <div className="mb-8 rounded-xl bg-red-50 border border-red-100 p-4 text-sm font-medium text-red-600 flex items-center gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
                 {error}
               </div>
             )}
 
             <form className="space-y-6" onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 gap-6">
-                <div className="space-y-2.5">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">
-                    Username
+              <div className="space-y-5">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 px-1">
+                    Full Name
                   </label>
                   <Input
                     icon={User}
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Your Name"
+                    placeholder="John Doe"
                     autoComplete="username"
                   />
                 </div>
 
-                <div className="space-y-2.5">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">
-                    Email
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 px-1">
+                    Email Address
                   </label>
                   <Input
                     icon={Mail}
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
+                    placeholder="john@example.com"
                     autoComplete="email"
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2.5">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 px-1">
                       Password
                     </label>
-                    <div className="relative">
-                      <Input
-                        icon={Lock}
-                        type={showPassword ? "text" : "password"}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="••••••••"
-                        autoComplete="new-password"
-                      />
-                    </div>
+                    <Input
+                      icon={Lock}
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      autoComplete="new-password"
+                    />
                   </div>
 
-                  <div className="space-y-2.5">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">
-                      Confirm Password
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 px-1">
+                      Confirm
                     </label>
                     <div className="relative">
                       <Input
@@ -170,45 +168,40 @@ export default function Register() {
                       <button
                         type="button"
                         onClick={() => setShowPassword((v) => !v)}
-                        className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-600 hover:text-slate-400 transition-colors"
-                        aria-label={showPassword ? "Hide password" : "Show password"}
+                        className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 hover:text-slate-600 transition-colors"
                       >
-                        {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="flex w-full h-14 items-center justify-center gap-3 rounded-2xl bg-blue-600 text-[11px] font-black uppercase tracking-[0.2em] text-white shadow-2xl shadow-blue-600/20 transition-all hover:bg-blue-700 hover:scale-[1.02] active:scale-[0.98] focus:ring-4 focus:ring-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <span>{loading ? "Creating Account..." : "Register"}</span>
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="mt-4 flex w-full h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-700 hover:translate-y-[-1px] active:scale-[0.98] disabled:opacity-50"
+              >
+                <span>{loading ? "Creating Account..." : "Create Account"}</span>
+                <ChevronRight className="h-4 w-4" />
+              </button>
 
-              <div className="pt-10 text-center text-[10px] font-black uppercase tracking-widest text-slate-500">
+              <div className="pt-8 text-center text-sm font-medium text-slate-500">
                 Already have an account?{" "}
-                <Link to="/" className="text-blue-500 hover:text-blue-400 transition-all underline decoration-blue-500/30 underline-offset-4">
+                <Link to="/" className="text-blue-600 font-bold hover:underline underline-offset-4">
                   Sign In
                 </Link>
               </div>
             </form>
           </div>
 
-          <div className="mt-10 flex items-center justify-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <span>All Systems Online</span>
+          <div className="mt-8 flex items-center justify-center gap-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              <div className="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
+              All Systems Operational
           </div>
         </div>
       </main>
     </div>
   );
 }
+
