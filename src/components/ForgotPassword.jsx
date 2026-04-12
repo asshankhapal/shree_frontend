@@ -18,7 +18,7 @@ export default function ForgotPassword() {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/forgot-password", { email });
+      const res = await axios.post("https://www.shreeenterprise.app/api/auth/forgot-password", { email });
       setMessage(res.data.message || "A reset link has been sent to your email!");
       setSent(true);
     } catch (err) {

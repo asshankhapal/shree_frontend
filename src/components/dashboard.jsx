@@ -9,7 +9,7 @@ import {
   LayoutDashboard, ShoppingBag, Settings, Bell, Search, Star, Trash2
 } from 'lucide-react';
 
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = 'https://www.shreeenterprise.app/api';
 
 export default function Dashboard() {
   const { user, logout } = useAuth();

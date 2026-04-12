@@ -31,7 +31,7 @@ export default function ResetPassword() {
     setLoading(true);
 
     try {
-      const res = await axios.post(`http://localhost:3000/api/auth/reset-password/${token}`, {
+      const res = await axios.post(`https://www.shreeenterprise.app/api/auth/reset-password/${token}`, {
         password: newPassword,
       });
       setMessage(res.data.message || "Password updated successfully!");
