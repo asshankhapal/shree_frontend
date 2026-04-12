@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://shree-backend-1.onrender.com/api",
+  baseURL: "https://my-shree-backend.onrender.com",
   withCredentials: true,
 });
 
