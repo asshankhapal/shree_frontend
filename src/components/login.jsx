@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { ChevronRight, Eye, EyeOff, Mail, ShieldCheck, Wrench, Sparkles, Globe, Lock, Cpu, Zap, Microchip, Layers } from "lucide-react";
+import { ChevronRight, Eye, EyeOff, Mail, ShieldCheck, Wrench, Sparkles, Globe, Lock, Cpu, Zap, Microchip, Layers, Target, Award, Rocket, CheckCircle2 } from "lucide-react";
 
 function Input({ icon, type, value, onChange, placeholder, autoComplete }) {
   return (
@@ -72,11 +72,11 @@ export default function Login() {
       <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="flex items-center space-x-3 group cursor-pointer">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 shadow-lg shadow-blue-600/20 transition-transform group-hover:scale-105">
-              <Cpu className="h-5 w-5 text-white" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white border border-slate-200 shadow-md overflow-hidden transition-transform group-hover:scale-105">
+                  <img src="/favicon.png" alt="Super Logo" className="h-8 w-8 object-contain" />
             </div>
             <div>
-              <div className="text-xl font-bold text-slate-900 tracking-tight">Shree <span className="text-blue-600">Enterprises</span></div>
+              <div className="text-xl font-bold text-slate-900 tracking-tight">Super <span className="text-blue-600">Computers</span></div>
               <div className="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">
                 Expert Tech Services
               </div>
@@ -199,7 +199,7 @@ export default function Login() {
               </button>
 
               <div className="pt-8 text-center text-sm font-medium text-slate-500">
-                New to Shree?{" "}
+                New to Super?{" "}
                 <Link to="/register" className="text-blue-600 font-bold hover:underline underline-offset-4">
                   Register Account
                 </Link>
@@ -208,6 +208,85 @@ export default function Login() {
           </div>
         </section>
       </main>
+
+      {/* Mission & Values (Moved from About Us) */}
+      <section className="bg-white py-24 border-y border-slate-100">
+        <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-3 gap-8">
+          {[
+            { 
+              title: "Precision Objective", 
+              desc: "Our primary mission is to minimize operational downtime by providing rapid-response technical recovery for consumer and enterprise hardware.",
+              icon: Target,
+              color: "text-blue-600",
+              bg: "bg-blue-50"
+            },
+            { 
+              title: "Quality Assurance", 
+              desc: "We adhere to ISO-standard quality management protocols, ensuring every repaired unit meets or exceeds original manufacturer specifications.",
+              icon: Award,
+              color: "text-emerald-600",
+              bg: "bg-emerald-50"
+            },
+            { 
+              title: "Scale & Growth", 
+              desc: "Continuously investing in state-of-the-art diagnostic BGA workstations and microscopic soldering technology to handle the latest silicon architecture.",
+              icon: Rocket,
+              color: "text-indigo-600",
+              bg: "bg-indigo-50"
+            }
+          ].map((box, idx) => (
+            <div key={idx} className="bg-slate-50 border border-slate-200 p-8 rounded-3xl hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-md">
+              <div className={`mb-6 h-14 w-14 rounded-2xl ${box.bg} ${box.color} flex items-center justify-center shadow-sm`}>
+                <box.icon className="w-7 h-7" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 tracking-tight mb-4">{box.title}</h3>
+              <p className="text-slate-500 font-medium text-sm leading-relaxed">{box.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Details Section (Moved from About Us) */}
+      <section className="mx-auto max-w-7xl px-6 py-24 grid md:grid-cols-2 gap-20 items-center">
+          <div className="space-y-8">
+              <div className="text-[10px] font-bold tracking-widest text-blue-600 uppercase">Legacy Profile</div>
+              <h2 className="text-4xl font-bold text-slate-900 tracking-tight leading-tight">Decades of Expertise, <br /> <span className="text-blue-600">Enterprise Standard.</span></h2>
+              <p className="text-slate-500 font-medium text-base leading-relaxed">
+                  Trusted by thousands of individual clients and hundreds of corporate partners, Super Computers represents the pinnacle of electronics service. We provide a full-cycle ecosystem for hardware management — from procurement of new assets to complex logic board recovery.
+              </p>
+              <div className="pt-4 space-y-4">
+                  <div className="flex items-center gap-3 text-xs font-bold text-slate-600">
+                      <CheckCircle2 className="w-5 h-5 text-blue-600" />
+                      Qualified IPC-7711/7721 Bench Technicians
+                  </div>
+                  <div className="flex items-center gap-3 text-xs font-bold text-slate-600">
+                      <CheckCircle2 className="w-5 h-5 text-blue-600" />
+                      ESD-Safe Laboratory Environment
+                  </div>
+                  <div className="flex items-center gap-3 text-xs font-bold text-slate-600">
+                      <CheckCircle2 className="w-5 h-5 text-blue-600" />
+                      Authorized Genuine Part Sourcing Linkage
+                  </div>
+              </div>
+          </div>
+          <div className="relative group">
+              <div className="absolute inset-0 bg-blue-100/50 blur-[80px] rounded-full opacity-50"></div>
+              <div className="relative aspect-video rounded-3xl border border-slate-200 bg-white overflow-hidden shadow-2xl p-2">
+                  <div className="w-full h-full rounded-2xl bg-slate-900 overflow-hidden relative">
+                        <img 
+                        src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=2070&auto=format&fit=crop" 
+                        className="w-full h-full object-cover opacity-80" 
+                        alt="Technical Infrastructure"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent"></div>
+                      <div className="absolute bottom-6 left-6">
+                          <div className="text-[10px] font-bold uppercase tracking-wider text-blue-400 mb-1">Infrastructure View</div>
+                          <div className="text-lg font-bold text-white tracking-tight">Main Diagnostic Lab</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
 
       <section className="bg-white border-t border-slate-200">
         <div className="mx-auto max-w-7xl px-6 py-20">
@@ -254,57 +333,29 @@ export default function Login() {
       </section>
 
       <footer className="bg-slate-900 text-slate-300">
-        <div className="mx-auto max-w-7xl px-6 py-16 pb-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            <div className="col-span-1 md:col-span-2 space-y-6">
-               <div className="flex items-center space-x-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 shadow-lg">
-                  <Cpu className="h-5 w-5 text-white" />
+        <div className="mx-auto max-w-7xl px-6 py-16">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+            <div className="space-y-6 text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start space-x-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white border border-slate-100 shadow-lg overflow-hidden">
+                  <img src="/favicon.png" alt="Super Logo" className="h-8 w-8 object-contain" />
                 </div>
-                <div className="text-xl font-bold text-white tracking-tight">Shree <span className="text-blue-500">Enterprises</span></div>
+                <div className="text-xl font-bold text-white tracking-tight">Super <span className="text-blue-500">Computers</span></div>
               </div>
-              <p className="max-w-xs text-sm text-slate-400 font-medium leading-relaxed">
+              <p className="max-w-xs text-sm text-slate-400 font-medium leading-relaxed mx-auto md:mx-0">
                 Specializing in expert electronics repair and quality corporate services for over 20 years.
               </p>
-              <div className="flex gap-4">
-                 {[1,2,3,4].map(i => <div key={i} className="h-8 w-8 rounded-lg bg-slate-800 flex items-center justify-center hover:bg-slate-700 transition-colors cursor-pointer"><Globe className="w-4 h-4 text-slate-400" /></div>)}
-              </div>
             </div>
 
-            <div className="space-y-4">
-               <h4 className="text-xs font-bold uppercase tracking-wider text-white">Services</h4>
-               <ul className="space-y-2 text-sm font-medium">
-                  {["Logic Board Repair", "Data Recovery", "Thermal Mgmt", "Corporate Support"].map(item => (
-                    <li key={item}><a href="#" className="hover:text-blue-500 transition-colors">{item}</a></li>
-                  ))}
-               </ul>
+            <div className="flex flex-col items-center md:items-end gap-6">
+               <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Access Node</div>
+               <Link to="/admin" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-800 text-sm font-bold text-blue-500 hover:bg-white hover:text-slate-900 transition-all shadow-xl">
+                  <ShieldCheck className="w-4 h-4" /> Admin Portal
+               </Link>
+               <div className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
+                 © 2024 Super Computers Systems
+               </div>
             </div>
-
-            <div className="space-y-4">
-               <h4 className="text-xs font-bold uppercase tracking-wider text-white">Portal</h4>
-               <ul className="space-y-4">
-                  <li>
-                    <Link to="/admin" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800 text-xs font-bold text-blue-500 hover:bg-white hover:text-slate-900 transition-all shadow-sm">
-                       <ShieldCheck className="w-3.5 h-3.5" /> Admin Portal
-                    </Link>
-                  </li>
-                  <li>
-                    <a href="#" className="text-xs font-bold text-slate-500 hover:text-white transition-colors">Support Center</a>
-                  </li>
-               </ul>
-            </div>
-          </div>
-
-          <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-             <div className="flex items-center gap-3">
-                <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
-                Systems Operational
-             </div>
-             <div className="flex gap-8">
-                <a href="#" className="hover:text-white transition-colors">ISO 27001</a>
-                <a href="#" className="hover:text-white transition-colors">Terms</a>
-                <a href="#" className="hover:text-white transition-colors">Privacy</a>
-             </div>
           </div>
         </div>
       </footer>

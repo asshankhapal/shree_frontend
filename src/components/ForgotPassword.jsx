@@ -34,11 +34,11 @@ export default function ForgotPassword() {
       <header className="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center space-x-3 group cursor-pointer">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 shadow-lg shadow-blue-600/20 transition-transform group-hover:scale-105">
-              <Cpu className="h-5 w-5 text-white" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white border border-slate-200 shadow-md overflow-hidden transition-transform group-hover:scale-105">
+              <img src="/favicon.png" alt="Super Logo" className="h-8 w-8 object-contain" />
             </div>
             <div>
-              <div className="text-lg font-bold text-slate-900 tracking-tight">Shree <span className="text-blue-600">Enterprises</span></div>
+              <div className="text-lg font-bold text-slate-900 tracking-tight">Super <span className="text-blue-600">Computers</span></div>
               <div className="-mt-0.5 text-[10px] text-slate-400 font-bold tracking-widest uppercase">
                 Security Module
               </div>

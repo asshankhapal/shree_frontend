@@ -78,11 +78,11 @@ export default function Dashboard() {
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen shrink-0 overflow-y-auto hidden lg:flex shadow-sm">
         <div className="p-6">
           <div className="flex items-center space-x-3 mb-10">
-            <div className="h-10 w-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-600/20 transition-all">
-              <Cpu className="h-5 w-5 text-white" />
+            <div className="h-10 w-10 bg-white border border-slate-200 rounded-lg flex items-center justify-center shadow-md overflow-hidden transition-all group-hover:scale-105">
+              <img src="/favicon.png" alt="Super Logo" className="h-8 w-8 object-contain" />
             </div>
             <div>
-              <div className="font-bold text-slate-900 text-lg tracking-tight">Shree <span className="text-blue-600">Enterprises</span></div>
+              <div className="font-bold text-slate-900 text-lg tracking-tight">Super <span className="text-blue-600">Computers</span></div>
               <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none mt-0.5">
                 Customer Dashboard
               </div>
@@ -94,6 +94,8 @@ export default function Dashboard() {
               { id: "dashboard", label: "Overview", icon: LayoutDashboard, path: "/dashboard" },
               { id: "store", label: "Shop Laptops", icon: ShoppingBag, path: "/laptops" },
               { id: "booking", label: "Repair Service", icon: Wrench, path: "/repair-booking" },
+              { id: "about", label: "About Us", icon: Users, path: "/about" },
+              { id: "contact", label: "Contact Us", icon: Phone, path: "/contact" },
             ].map((item) => (
               <Link
                 key={item.id}

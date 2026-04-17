@@ -6,7 +6,7 @@ import {
   Wrench, LogOut, User, Calendar, Clock, ChevronRight, X,
   CheckCircle2, ArrowLeft, Monitor, Smartphone, Tablet,
   Laptop, AlertCircle, LayoutDashboard, ShoppingBag, Sparkles, ShieldCheck,
-  Cpu, Activity
+  Cpu, Activity, Users, Phone
 } from 'lucide-react';
 
 const deviceTypes = [
@@ -115,8 +115,8 @@ export default function RepairBooking() {
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen shrink-0 overflow-y-auto hidden lg:flex shadow-sm">
         <div className="p-6">
           <div className="flex items-center space-x-3 mb-10 group cursor-pointer">
-            <div className="h-10 w-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-600/20 transition-all">
-              <Wrench className="h-5 w-5 text-white" />
+            <div className="h-10 w-10 bg-white border border-slate-200 rounded-lg flex items-center justify-center shadow-md overflow-hidden transition-all group-hover:scale-105">
+              <img src="/favicon.png" alt="Super Logo" className="h-8 w-8 object-contain" />
             </div>
             <div>
               <div className="font-bold text-slate-900 text-lg tracking-tight">Support <span className="text-blue-600">Hub</span></div>
@@ -131,6 +131,8 @@ export default function RepairBooking() {
               { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
               { id: "store", label: "Laptop Store", icon: ShoppingBag, path: "/laptops" },
               { id: "booking", label: "Repair Booking", icon: Wrench, path: "/repair-booking", active: true },
+              { id: "about", label: "About Us", icon: Users, path: "/about" },
+              { id: "contact", label: "Contact Us", icon: Phone, path: "/contact" },
             ].map((item) => (
               <Link
                 key={item.id}

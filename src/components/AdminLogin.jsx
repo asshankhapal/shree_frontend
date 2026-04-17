@@ -67,8 +67,8 @@ export default function AdminLogin() {
         </div>
 
         <div className="text-center mb-10">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-900 shadow-xl mb-6">
-            <Shield className="h-7 w-7 text-white" />
+          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white border border-slate-200 shadow-xl mb-6 overflow-hidden">
+            <img src="/favicon.png" alt="Super Logo" className="h-10 w-10 object-contain" />
           </div>
           <div className="text-[10px] font-bold tracking-[0.3em] text-blue-600 uppercase mb-2">Internal Framework</div>
           <h1 className="text-3xl font-bold text-slate-900 tracking-tight">System Node <span className="text-blue-600">Admin</span></h1>
@@ -94,7 +94,7 @@ export default function AdminLogin() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@shree.com"
+                placeholder="admin@super.com"
                 autoComplete="email"
                 required
               />

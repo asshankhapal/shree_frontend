@@ -35,11 +35,11 @@ export default function ContactUs() {
       <header className="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center space-x-3 group cursor-pointer">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 shadow-lg shadow-blue-600/20 transition-transform group-hover:scale-105">
-              <Headphones className="h-5 w-5 text-white" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white border border-slate-200 shadow-md overflow-hidden transition-transform group-hover:scale-105">
+              <img src="/favicon.png" alt="Super Logo" className="h-8 w-8 object-contain" />
             </div>
             <div>
-              <div className="text-lg font-bold text-slate-900 tracking-tight">Shree <span className="text-blue-600">Support</span></div>
+              <div className="text-lg font-bold text-slate-900 tracking-tight">Super <span className="text-blue-600">Support</span></div>
               <div className="-mt-0.5 text-[10px] text-slate-400 font-bold tracking-widest uppercase">
                 Customer Relations
               </div>
@@ -74,7 +74,7 @@ export default function ContactUs() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-6">
                {[
-                 { icon: Mail, label: "Email Support", val: "support@shree-enterprises.com", color: "text-blue-600" },
+                 { icon: Mail, label: "Email Support", val: "support@super-computers.com", color: "text-blue-600" },
                  { icon: Phone, label: "Direct Line", val: "+91 98765 43210", color: "text-blue-600" },
                  { icon: MapPin, label: "Corporate Office", val: "Corporate Park, Sector 18, Mumbai 400705", color: "text-blue-600" }
                ].map((item, i) => (
@@ -164,14 +164,16 @@ export default function ContactUs() {
 
       {/* Footer Partial */}
       <footer className="bg-slate-50 border-t border-slate-100 py-12">
-          <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                Shree Enterprises <span className="text-slate-300 px-2 font-normal">|</span> Authorized Support Node © 2024
+          <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-12">
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-widest text-center md:text-left">
+                Super Computers <span className="text-slate-300 px-2 font-normal">|</span> Authorized Support Node © 2024
               </div>
-              <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                  <a href="#" className="hover:text-blue-600 transition-colors">Digital Privacy</a>
-                  <a href="#" className="hover:text-blue-600 transition-colors">SLA Agreement</a>
-                  <a href="#" className="hover:text-blue-600 transition-colors">Legal Protocol</a>
+              <div className="flex flex-col md:flex-row items-center gap-6">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Restricted Access</div>
+                <Link to="/admin" className="flex items-center gap-2 bg-white border border-slate-200 text-slate-900 px-5 py-2 rounded-xl font-bold hover:bg-slate-50 transition-all text-xs shadow-sm">
+                  <ShieldCheck className="w-4 h-4 text-blue-600" />
+                  Admin Portal
+                </Link>
               </div>
           </div>
       </footer>

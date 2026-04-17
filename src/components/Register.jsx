@@ -70,11 +70,11 @@ export default function Register() {
       <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="flex items-center space-x-3 group cursor-pointer">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 shadow-lg shadow-blue-600/20 transition-transform group-hover:scale-105">
-              <Cpu className="h-5 w-5 text-white" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white border border-slate-200 shadow-md overflow-hidden transition-transform group-hover:scale-105">
+              <img src="/favicon.png" alt="Super Logo" className="h-8 w-8 object-contain" />
             </div>
             <div>
-              <div className="text-xl font-bold text-slate-900 tracking-tight">Shree <span className="text-blue-600">Enterprises</span></div>
+              <div className="text-xl font-bold text-slate-900 tracking-tight">Super <span className="text-blue-600">Computers</span></div>
               <div className="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">
                 Customer Portal
               </div>
@@ -96,7 +96,7 @@ export default function Register() {
               <div className="text-xs font-bold tracking-widest text-blue-600 uppercase mb-2">New Account</div>
               <h2 className="text-3xl font-bold text-slate-900">Get Started</h2>
               <p className="text-slate-500 font-medium text-sm mt-2">
-                Join Shree Enterprises for premium tech repair tracking.
+                Join Super Computers for premium tech repair tracking.
               </p>
             </div>
 
