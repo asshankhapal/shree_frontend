@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import API from '../api/axios';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Wrench, LogOut, User, Calendar, Clock, ChevronRight, X,
   CheckCircle2, ArrowLeft, Monitor, Smartphone, Tablet,
@@ -109,12 +110,23 @@ export default function RepairBooking() {
     return tomorrow.toISOString().split('T')[0];
   };
 
+  const stepVariants = {
+    initial: { opacity: 0, x: 20 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -20 },
+    transition: { duration: 0.3 }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex text-sm selection:bg-blue-600/10">
       {/* Sidebar */}
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen shrink-0 overflow-y-auto hidden lg:flex shadow-sm">
         <div className="p-6">
-          <div className="flex items-center space-x-3 mb-10 group cursor-pointer">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center space-x-3 mb-10 group cursor-pointer"
+          >
             <div className="h-10 w-10 bg-white border border-slate-200 rounded-lg flex items-center justify-center shadow-md overflow-hidden transition-all group-hover:scale-105">
               <img src="/favicon.png" alt="Super Logo" className="h-8 w-8 object-contain" />
             </div>
@@ -124,7 +136,7 @@ export default function RepairBooking() {
                 Authorized Repair
               </div>
             </div>
-          </div>
+          </motion.div>
 
           <nav className="space-y-1.5">
             {[
@@ -133,19 +145,25 @@ export default function RepairBooking() {
               { id: "booking", label: "Repair Booking", icon: Wrench, path: "/repair-booking", active: true },
               { id: "about", label: "About Us", icon: Users, path: "/about" },
               { id: "contact", label: "Contact Us", icon: Phone, path: "/contact" },
-            ].map((item) => (
-              <Link
+            ].map((item, idx) => (
+              <motion.div
                 key={item.id}
-                to={item.path}
-                className={`w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all ${
-                  item.active
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
-                }`}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + idx * 0.05 }}
               >
-                <item.icon className="h-5 w-5" />
-                <span className="font-semibold">{item.label}</span>
-              </Link>
+                <Link
+                  to={item.path}
+                  className={`w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all ${
+                    item.active
+                      ? "bg-blue-50 text-blue-600 shadow-sm"
+                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                  }`}
+                >
+                  <item.icon className="h-5 w-5" />
+                  <span className="font-semibold">{item.label}</span>
+                </Link>
+              </motion.div>
             ))}
           </nav>
         </div>
@@ -173,7 +191,10 @@ export default function RepairBooking() {
       {/* Main Content Area */}
       <main className="flex-1 p-6 md:p-10 overflow-y-auto relative">
         <header className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider mb-3">
                <Activity className="w-3.5 h-3.5" />
                Scheduling Hub: Online
@@ -182,7 +203,7 @@ export default function RepairBooking() {
               Service <span className="text-blue-600">Scheduler</span>
             </h1>
             <p className="text-slate-500 font-medium text-sm mt-1">Book premium diagnostics and hardware repair.</p>
-          </div>
+          </motion.div>
           
           <Link
             to="/dashboard"
@@ -193,324 +214,391 @@ export default function RepairBooking() {
           </Link>
         </header>
 
-        {success ? (
-          <div className="max-w-xl mx-auto py-10 animate-in fade-in zoom-in-95 duration-300">
-            <div className="bg-white border border-slate-200 rounded-[2.5rem] p-10 text-center shadow-lg relative overflow-hidden">
-              <div className="w-16 h-16 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-8">
-                <CheckCircle2 className="w-8 h-8 text-emerald-600" />
-              </div>
-              
-              <h2 className="text-2xl font-bold text-slate-900 mb-2">Booking Success</h2>
-              <p className="text-slate-500 text-sm font-medium mb-10 leading-relaxed px-4">Your repair ticket has been generated. Our hardware engineers will review your request shortly.</p>
-
-              <div className="bg-slate-50 rounded-2xl p-6 text-left space-y-4 mb-10 border border-slate-100">
-                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1 border-b border-slate-200 pb-1.5">Booking Intelligence</div>
-                <div className="flex justify-between items-center font-bold">
-                  <span className="text-slate-500 text-xs">Assigned Unit</span>
-                  <span className="text-slate-900 text-sm">{form.deviceType} <span className="text-slate-300 px-1">/</span> {form.brand}</span>
+        <AnimatePresence mode="wait">
+          {success ? (
+            <motion.div 
+              key="success"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              className="max-w-xl mx-auto py-10"
+            >
+              <div className="bg-white border border-slate-200 rounded-[2.5rem] p-10 text-center shadow-lg relative overflow-hidden">
+                <div className="w-16 h-16 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-8">
+                  <CheckCircle2 className="w-8 h-8 text-emerald-600" />
                 </div>
-                <div className="flex justify-between items-center font-bold">
-                  <span className="text-slate-500 text-xs">Preferred Slot</span>
-                  <span className="text-slate-900 text-sm">
-                    {new Date(form.preferredDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
-                    <span className="text-slate-400 font-normal mx-2">@</span> 
-                    {form.preferredTime.split('-')[0]}
-                  </span>
-                </div>
-              </div>
+                
+                <h2 className="text-2xl font-bold text-slate-900 mb-2">Booking Success</h2>
+                <p className="text-slate-500 text-sm font-medium mb-10 leading-relaxed px-4">Your repair ticket has been generated. Our hardware engineers will review your request shortly.</p>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  to="/dashboard"
-                  className="flex-1 bg-blue-600 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-blue-700 transition shadow-lg shadow-blue-600/20"
-                >
-                  Manage Tickets
-                </Link>
-                <button
-                  onClick={() => {
-                    setSuccess(false);
-                    setStep(1);
-                    setForm({
-                      name: user?.username || '',
-                      email: user?.email || '',
-                      phone: '',
-                      deviceType: '',
-                      brand: '',
-                      model: '',
-                      issueDescription: '',
-                      preferredDate: '',
-                      preferredTime: '',
-                    });
-                  }}
-                  className="flex-1 bg-white hover:bg-slate-50 text-slate-500 py-4 rounded-xl font-bold uppercase tracking-widest text-xs border border-slate-200 transition"
-                >
-                  New Request
-                </button>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="max-w-4xl mx-auto pb-20">
-            {/* Professional Stepper */}
-            <div className="flex items-center justify-between mb-12 max-w-2xl mx-auto px-6">
-              {[
-                { num: 1, label: 'Categorize' },
-                { num: 2, label: 'Diagnostics' },
-                { num: 3, label: 'Schedule' },
-              ].map((s, i) => (
-                <React.Fragment key={s.num}>
-                  <div className="flex flex-col items-center gap-2">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs transition-all ${
-                      step >= s.num
-                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
-                        : 'bg-white border border-slate-200 text-slate-300 shadow-sm'
-                    }`}>
-                      {step > s.num ? <CheckCircle2 className="w-5 h-5" /> : s.num}
-                    </div>
-                    <span className={`text-[10px] font-bold uppercase tracking-wider ${step >= s.num ? 'text-slate-900' : 'text-slate-400'}`}>
-                      {s.label}
+                <div className="bg-slate-50 rounded-2xl p-6 text-left space-y-4 mb-10 border border-slate-100">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1 border-b border-slate-200 pb-1.5">Booking Intelligence</div>
+                  <div className="flex justify-between items-center font-bold">
+                    <span className="text-slate-500 text-xs">Assigned Unit</span>
+                    <span className="text-slate-900 text-sm">{form.deviceType} <span className="text-slate-300 px-1">/</span> {form.brand}</span>
+                  </div>
+                  <div className="flex justify-between items-center font-bold">
+                    <span className="text-slate-500 text-xs">Preferred Slot</span>
+                    <span className="text-slate-900 text-sm">
+                      {new Date(form.preferredDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                      <span className="text-slate-400 font-normal mx-2">@</span> 
+                      {form.preferredTime.split('-')[0]}
                     </span>
                   </div>
-                  {i < 2 && (
-                    <div className={`flex-1 h-0.5 mx-4 -mt-6 transition-all duration-500 ${step > s.num ? 'bg-blue-600' : 'bg-slate-200'}`}></div>
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
-
-            <div className="bg-white border border-slate-200 rounded-[2.5rem] shadow-sm relative overflow-hidden min-h-[500px] flex flex-col">
-              {error && (
-                <div className="mx-8 mt-8 bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl text-[10px] font-bold uppercase tracking-wider flex items-center gap-3">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
-                  {error}
                 </div>
-              )}
 
-              <div className="flex-1 p-8 md:p-12">
-                {/* Step 1: Device Identification */}
-                {step === 1 && (
-                  <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-300">
-                    <div>
-                      <h3 className="text-2xl font-bold text-slate-900 tracking-tight uppercase mb-1">Asset Classification</h3>
-                      <p className="text-slate-500 text-sm font-medium">Select the hardware requiring professional support.</p>
-                    </div>
-
-                    <div className="space-y-4">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Hardware Category</label>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        {deviceTypes.map(dt => {
-                          const Icon = dt.icon;
-                          const isActive = form.deviceType === dt.value;
-                          return (
-                            <button
-                              key={dt.value}
-                              type="button"
-                              onClick={() => updateForm('deviceType', dt.value)}
-                              className={`flex flex-col items-center gap-3 py-6 rounded-2xl font-bold transition-all group relative overflow-hidden border ${
-                                isActive
-                                  ? 'bg-blue-50 border-blue-600 text-blue-600 shadow-sm'
-                                  : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300 hover:text-slate-600 shadow-sm'
-                              }`}
-                            >
-                              <Icon className={`w-7 h-7 transition-all duration-300 ${isActive ? 'scale-110 text-blue-600' : 'text-slate-300 group-hover:text-slate-500 group-hover:scale-105'}`} />
-                              <span className="text-[10px] uppercase tracking-widest leading-none">{dt.label}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    <div className="space-y-4">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Manufacturer Authorization</label>
-                      <div className="flex flex-wrap gap-2.5">
-                        {brands.map(b => {
-                          const isActive = form.brand === b;
-                          return (
-                            <button
-                              key={b}
-                              type="button"
-                              onClick={() => updateForm('brand', b)}
-                              className={`px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border ${
-                                isActive
-                                  ? 'bg-slate-900 border-slate-900 text-white shadow-md'
-                                  : 'bg-white border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-slate-600 shadow-sm'
-                              }`}
-                            >
-                              {b}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Hardware Model / Serial</label>
-                      <input
-                        type="text"
-                        value={form.model}
-                        onChange={(e) => updateForm('model', e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition"
-                        placeholder="e.g. Precision 5570 / SN: XXXX"
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {/* Step 2: Problem Details */}
-                {step === 2 && (
-                  <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-300">
-                    <div>
-                      <h3 className="text-2xl font-bold text-slate-900 tracking-tight uppercase mb-1">Incident Report</h3>
-                      <p className="text-slate-500 text-sm font-medium">Please detail the failure symptoms for our bench techs.</p>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Fault Description</label>
-                      <textarea
-                        value={form.issueDescription}
-                        onChange={(e) => updateForm('issueDescription', e.target.value)}
-                        rows={5}
-                        required
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-5 font-medium text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition resize-none leading-relaxed"
-                        placeholder="Describe the performance issues or physical damage..."
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2 text-left">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Officer Name</label>
-                        <input
-                          type="text"
-                          value={form.name}
-                          onChange={(e) => updateForm('name', e.target.value)}
-                          required
-                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition"
-                          placeholder="Your Name"
-                        />
-                      </div>
-                      <div className="space-y-2 text-left">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Corporate Email</label>
-                        <input
-                          type="email"
-                          value={form.email}
-                          onChange={(e) => updateForm('email', e.target.value)}
-                          required
-                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition"
-                          placeholder="email@example.com"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Secure Contact</label>
-                      <input
-                        type="tel"
-                        value={form.phone}
-                        onChange={(e) => updateForm('phone', e.target.value)}
-                        required
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition"
-                        placeholder="+91 XXXX XXXX"
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {/* Step 3: Pick a Time */}
-                {step === 3 && (
-                  <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-300">
-                    <div>
-                      <h3 className="text-2xl font-bold text-slate-900 tracking-tight uppercase mb-1">Dispatch Window</h3>
-                      <p className="text-slate-500 text-sm font-medium">Select a slot for on-site visit or hardware drop-off.</p>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Appointment Date</label>
-                      <div className="relative">
-                         <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-600" />
-                         <input
-                          type="date"
-                          value={form.preferredDate}
-                          onChange={(e) => updateForm('preferredDate', e.target.value)}
-                          min={getMinDate()}
-                          required
-                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 pl-12 text-sm font-bold text-slate-800 focus:border-blue-600 outline-none transition"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-6">
-                      <div className="flex items-center justify-between">
-                         <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Available Intervals</label>
-                         <div className="flex items-center gap-1.5 text-[10px] font-bold text-blue-600 opacity-60">
-                            <Clock className="w-3.5 h-3.5" /> All slots are IST window
-                         </div>
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {timeSlots.map(ts => {
-                          const isActive = form.preferredTime === ts.value;
-                          return (
-                            <button
-                              key={ts.value}
-                              type="button"
-                              onClick={() => updateForm('preferredTime', ts.value)}
-                              className={`p-6 rounded-2xl text-left transition-all border ${
-                                isActive
-                                  ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-600/20'
-                                  : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300 hover:bg-slate-50 shadow-sm'
-                              }`}
-                            >
-                              <div className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${
-                                isActive ? 'text-blue-100' : 'text-slate-400'
-                              }`}>{ts.period}</div>
-                              <div className="font-bold text-lg tracking-tight">{ts.label}</div>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                )}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link
+                    to="/dashboard"
+                    className="flex-1 bg-blue-600 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-blue-700 transition shadow-lg shadow-blue-600/20"
+                  >
+                    Manage Tickets
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setSuccess(false);
+                      setStep(1);
+                      setForm({
+                        name: user?.username || '',
+                        email: user?.email || '',
+                        phone: '',
+                        deviceType: '',
+                        brand: '',
+                        model: '',
+                        issueDescription: '',
+                        preferredDate: '',
+                        preferredTime: '',
+                      });
+                    }}
+                    className="flex-1 bg-white hover:bg-slate-50 text-slate-500 py-4 rounded-xl font-bold uppercase tracking-widest text-xs border border-slate-200 transition"
+                  >
+                    New Request
+                  </button>
+                </div>
               </div>
-
-              {/* Action Bar */}
-              <div className="p-8 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
-                {step > 1 ? (
-                  <button
-                    onClick={() => { setStep(s => s - 1); setError(''); }}
-                    className="h-12 px-6 bg-white text-slate-500 rounded-xl font-bold uppercase tracking-widest text-[10px] border border-slate-200 hover:bg-slate-100 transition-all shadow-sm"
-                  >
-                    Previous Step
-                  </button>
-                ) : (
-                  <div />
-                )}
-
-                {step < 3 ? (
-                  <button
-                    onClick={nextStep}
-                    className="h-12 px-8 bg-blue-600 text-white rounded-xl font-bold uppercase tracking-widest text-[10px] flex items-center gap-2.5 shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition"
-                  >
-                    <span>Proceed Information</span>
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                ) : (
-                  <button
-                    onClick={handleSubmit}
-                    disabled={submitting}
-                    className="h-12 px-8 bg-slate-900 text-white rounded-xl font-bold uppercase tracking-widest text-[10px] flex items-center gap-2.5 shadow-xl hover:bg-slate-800 transition disabled:opacity-50"
-                  >
-                    {submitting ? 'Authenticating Request...' : (
-                      <>
-                        <span>Finalize Booking</span>
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                      </>
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="form"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="max-w-4xl mx-auto pb-20"
+            >
+              {/* Professional Stepper */}
+              <div className="flex items-center justify-between mb-12 max-w-2xl mx-auto px-6">
+                {[
+                  { num: 1, label: 'Categorize' },
+                  { num: 2, label: 'Diagnostics' },
+                  { num: 3, label: 'Schedule' },
+                ].map((s, i) => (
+                  <React.Fragment key={s.num}>
+                    <div className="flex flex-col items-center gap-2">
+                      <motion.div 
+                        initial={false}
+                        animate={{ 
+                          backgroundColor: step >= s.num ? '#2563eb' : '#ffffff',
+                          borderColor: step >= s.num ? '#2563eb' : '#e2e8f0',
+                          color: step >= s.num ? '#ffffff' : '#cbd5e1'
+                        }}
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs transition-all border ${
+                          step >= s.num ? 'shadow-lg shadow-blue-600/20' : 'shadow-sm'
+                        }`}
+                      >
+                        {step > s.num ? <CheckCircle2 className="w-5 h-5" /> : s.num}
+                      </motion.div>
+                      <span className={`text-[10px] font-bold uppercase tracking-wider ${step >= s.num ? 'text-slate-900' : 'text-slate-400'}`}>
+                        {s.label}
+                      </span>
+                    </div>
+                    {i < 2 && (
+                      <div className="flex-1 h-0.5 mx-4 -mt-6 bg-slate-200 overflow-hidden relative">
+                         <motion.div 
+                           initial={false}
+                           animate={{ width: step > s.num ? "100%" : "0%" }}
+                           className="absolute inset-0 bg-blue-600 transition-all duration-500"
+                         />
+                      </div>
                     )}
-                  </button>
-                )}
+                  </React.Fragment>
+                ))}
               </div>
-            </div>
-          </div>
-        )}
+
+              <div className="bg-white border border-slate-200 rounded-[2.5rem] shadow-sm relative overflow-hidden min-h-[500px] flex flex-col">
+                {error && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mx-8 mt-8 bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl text-[10px] font-bold uppercase tracking-wider flex items-center gap-3"
+                  >
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    {error}
+                  </motion.div>
+                )}
+
+                <div className="flex-1 p-8 md:p-12 relative">
+                  <AnimatePresence mode="wait">
+                    {/* Step 1: Device Identification */}
+                    {step === 1 && (
+                      <motion.div 
+                        key="step1"
+                        {...stepVariants}
+                        className="space-y-10"
+                      >
+                        <div>
+                          <h3 className="text-2xl font-bold text-slate-900 tracking-tight uppercase mb-1">Asset Classification</h3>
+                          <p className="text-slate-500 text-sm font-medium">Select the hardware requiring professional support.</p>
+                        </div>
+
+                        <div className="space-y-4">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Hardware Category</label>
+                          <motion.div 
+                            variants={{
+                              visible: { transition: { staggerChildren: 0.05 } }
+                            }}
+                            initial="hidden"
+                            animate="visible"
+                            className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+                          >
+                            {deviceTypes.map(dt => {
+                              const Icon = dt.icon;
+                              const isActive = form.deviceType === dt.value;
+                              return (
+                                <motion.button
+                                  variants={{
+                                    hidden: { opacity: 0, y: 10 },
+                                    visible: { opacity: 1, y: 0 }
+                                  }}
+                                  key={dt.value}
+                                  type="button"
+                                  onClick={() => updateForm('deviceType', dt.value)}
+                                  whileHover={{ scale: 1.02 }}
+                                  whileTap={{ scale: 0.98 }}
+                                  className={`flex flex-col items-center gap-3 py-6 rounded-2xl font-bold transition-all relative overflow-hidden border ${
+                                    isActive
+                                      ? 'bg-blue-50 border-blue-600 text-blue-600 shadow-sm'
+                                      : 'bg-white border-slate-100 text-slate-400 hover:border-slate-300 hover:text-slate-600 shadow-sm'
+                                  }`}
+                                >
+                                  <Icon className={`w-7 h-7 transition-all duration-300 ${isActive ? 'scale-110 text-blue-600' : 'text-slate-300'}`} />
+                                  <span className="text-[10px] uppercase tracking-widest leading-none">{dt.label}</span>
+                                </motion.button>
+                              );
+                            })}
+                          </motion.div>
+                        </div>
+
+                        <div className="space-y-4">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Manufacturer Authorization</label>
+                          <div className="flex flex-wrap gap-2.5">
+                            {brands.map(b => {
+                              const isActive = form.brand === b;
+                              return (
+                                <motion.button
+                                  key={b}
+                                  type="button"
+                                  onClick={() => updateForm('brand', b)}
+                                  whileHover={{ scale: 1.05 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  className={`px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border ${
+                                    isActive
+                                      ? 'bg-slate-900 border-slate-900 text-white shadow-md'
+                                      : 'bg-white border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-slate-600 shadow-sm'
+                                  }`}
+                                >
+                                  {b}
+                                </motion.button>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Hardware Model / Serial</label>
+                          <input
+                            type="text"
+                            value={form.model}
+                            onChange={(e) => updateForm('model', e.target.value)}
+                            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition"
+                            placeholder="e.g. Precision 5570 / SN: XXXX"
+                          />
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* Step 2: Problem Details */}
+                    {step === 2 && (
+                      <motion.div 
+                        key="step2"
+                        {...stepVariants}
+                        className="space-y-10"
+                      >
+                        <div>
+                          <h3 className="text-2xl font-bold text-slate-900 tracking-tight uppercase mb-1">Incident Report</h3>
+                          <p className="text-slate-500 text-sm font-medium">Please detail the failure symptoms for our bench techs.</p>
+                        </div>
+
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Fault Description</label>
+                          <textarea
+                            value={form.issueDescription}
+                            onChange={(e) => updateForm('issueDescription', e.target.value)}
+                            rows={5}
+                            required
+                            className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-5 font-medium text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition resize-none leading-relaxed"
+                            placeholder="Describe the performance issues or physical damage..."
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-2 text-left">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Officer Name</label>
+                            <input
+                              type="text"
+                              value={form.name}
+                              onChange={(e) => updateForm('name', e.target.value)}
+                              required
+                              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition"
+                              placeholder="Your Name"
+                            />
+                          </div>
+                          <div className="space-y-2 text-left">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Corporate Email</label>
+                            <input
+                              type="email"
+                              value={form.email}
+                              onChange={(e) => updateForm('email', e.target.value)}
+                              required
+                              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition"
+                              placeholder="email@example.com"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Secure Contact</label>
+                          <input
+                            type="tel"
+                            value={form.phone}
+                            onChange={(e) => updateForm('phone', e.target.value)}
+                            required
+                            className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-800 placeholder:text-slate-300 focus:border-blue-600 outline-none transition"
+                            placeholder="+91 XXXX XXXX"
+                          />
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* Step 3: Pick a Time */}
+                    {step === 3 && (
+                      <motion.div 
+                        key="step3"
+                        {...stepVariants}
+                        className="space-y-10"
+                      >
+                        <div>
+                          <h3 className="text-2xl font-bold text-slate-900 tracking-tight uppercase mb-1">Dispatch Window</h3>
+                          <p className="text-slate-500 text-sm font-medium">Select a slot for on-site visit or hardware drop-off.</p>
+                        </div>
+
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Appointment Date</label>
+                          <div className="relative">
+                             <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-600" />
+                             <input
+                              type="date"
+                              value={form.preferredDate}
+                              onChange={(e) => updateForm('preferredDate', e.target.value)}
+                              min={getMinDate()}
+                              required
+                              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 pl-12 text-sm font-bold text-slate-800 focus:border-blue-600 outline-none transition"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-6">
+                          <div className="flex items-center justify-between">
+                             <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-1">Available Intervals</label>
+                             <div className="flex items-center gap-1.5 text-[10px] font-bold text-blue-600 opacity-60">
+                                <Clock className="w-3.5 h-3.5" /> All slots are IST window
+                             </div>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {timeSlots.map(ts => {
+                              const isActive = form.preferredTime === ts.value;
+                              return (
+                                <motion.button
+                                  key={ts.value}
+                                  type="button"
+                                  onClick={() => updateForm('preferredTime', ts.value)}
+                                  whileHover={{ scale: 1.02 }}
+                                  whileTap={{ scale: 0.98 }}
+                                  className={`p-6 rounded-2xl text-left transition-all border ${
+                                    isActive
+                                      ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-600/20'
+                                      : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300 hover:bg-slate-50 shadow-sm'
+                                  }`}
+                                >
+                                  <div className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${
+                                    isActive ? 'text-blue-100' : 'text-slate-400'
+                                  }`}>{ts.period}</div>
+                                  <div className="font-bold text-lg tracking-tight">{ts.label}</div>
+                                </motion.button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Action Bar */}
+                <div className="p-8 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
+                  {step > 1 ? (
+                    <motion.button
+                      whileHover={{ x: -3 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => { setStep(s => s - 1); setError(''); }}
+                      className="h-12 px-6 bg-white text-slate-500 rounded-xl font-bold uppercase tracking-widest text-[10px] border border-slate-200 hover:bg-slate-100 transition-all shadow-sm"
+                    >
+                      Previous Step
+                    </motion.button>
+                  ) : (
+                    <div />
+                  )}
+
+                  {step < 3 ? (
+                    <motion.button
+                      whileHover={{ x: 3 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={nextStep}
+                      className="h-12 px-8 bg-blue-600 text-white rounded-xl font-bold uppercase tracking-widest text-[10px] flex items-center gap-2.5 shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition"
+                    >
+                      <span>Proceed Information</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </motion.button>
+                  ) : (
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={handleSubmit}
+                      disabled={submitting}
+                      className="h-12 px-8 bg-slate-900 text-white rounded-xl font-bold uppercase tracking-widest text-[10px] flex items-center gap-2.5 shadow-xl hover:bg-slate-800 transition disabled:opacity-50"
+                    >
+                      {submitting ? 'Authenticating Request...' : (
+                        <>
+                          <span>Finalize Booking</span>
+                          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                        </>
+                      )}
+                    </motion.button>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import API from '../api/axios';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Wrench, LogOut, User, ShoppingCart, Star, Cpu, HardDrive,
   Monitor, MemoryStick, ChevronRight, X, CheckCircle2, Package,
@@ -79,12 +80,38 @@ export default function LaptopStore() {
     return '₹' + (price || 0).toLocaleString('en-IN');
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex selection:bg-blue-600/10">
       {/* Sidebar Navigation */}
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen shrink-0 overflow-y-auto hidden lg:flex shadow-sm">
         <div className="p-6">
-          <div className="flex items-center space-x-3 mb-10">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center space-x-3 mb-10"
+          >
             <div className="h-10 w-10 bg-white border border-slate-200 rounded-lg flex items-center justify-center shadow-md overflow-hidden transition-all group-hover:scale-105">
               <img src="/favicon.png" alt="Super Logo" className="h-8 w-8 object-contain" />
             </div>
@@ -94,7 +121,7 @@ export default function LaptopStore() {
                 Hardware Marketplace
               </div>
             </div>
-          </div>
+          </motion.div>
 
           <nav className="space-y-1.5">
             {[
@@ -103,19 +130,25 @@ export default function LaptopStore() {
               { id: "booking", label: "Repair Service", icon: Wrench, path: "/repair-booking" },
               { id: "about", label: "About Us", icon: Users, path: "/about" },
               { id: "contact", label: "Contact Us", icon: Phone, path: "/contact" },
-            ].map((item) => (
-              <Link
+            ].map((item, idx) => (
+              <motion.div
                 key={item.id}
-                to={item.path}
-                className={`w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all ${
-                  item.active
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
-                }`}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + idx * 0.05 }}
               >
-                <item.icon className="h-5 w-5" />
-                <span className="font-semibold text-sm">{item.label}</span>
-              </Link>
+                <Link
+                  to={item.path}
+                  className={`w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all ${
+                    item.active
+                      ? "bg-blue-50 text-blue-600 shadow-sm"
+                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                  }`}
+                >
+                  <item.icon className="h-5 w-5" />
+                  <span className="font-semibold text-sm">{item.label}</span>
+                </Link>
+              </motion.div>
             ))}
           </nav>
         </div>
@@ -143,7 +176,10 @@ export default function LaptopStore() {
       {/* Main Content Area */}
       <main className="flex-1 p-6 md:p-10 overflow-y-auto relative">
         <header className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider mb-3">
                <Sparkles className="w-3.5 h-3.5" />
                Latest Hardware Verified
@@ -152,7 +188,7 @@ export default function LaptopStore() {
               Premium <span className="text-blue-600">Marketplace</span>
             </h1>
             <p className="text-slate-500 font-medium text-sm mt-1">Authorized dealer for high-performance workstations.</p>
-          </div>
+          </motion.div>
           
           <div className="flex items-center gap-3">
              <div className="relative group hidden md:block">
@@ -171,10 +207,14 @@ export default function LaptopStore() {
         </header>
 
         {error && (
-          <div className="bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl flex items-center gap-3 mb-8 text-sm font-medium">
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            className="bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl flex items-center gap-3 mb-8 text-sm font-medium"
+          >
             <X className="h-5 w-5" />
             {error}
-          </div>
+          </motion.div>
         )}
 
         {loading ? (
@@ -189,16 +229,33 @@ export default function LaptopStore() {
             ))}
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+          >
             {laptops.map((laptop) => (
-              <div
+              <motion.div
                 key={laptop._id}
-                className="bg-white border border-slate-200 rounded-2xl p-5 hover:border-blue-300 transition-all group flex flex-col relative shadow-sm hover:shadow-md"
+                variants={cardVariants}
+                whileHover={{ 
+                  y: -8,
+                  borderColor: "#2563eb",
+                  boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)"
+                }}
+                className="bg-white border border-slate-200 rounded-2xl p-5 transition-all group flex flex-col relative shadow-sm"
               >
                 {/* Image area */}
                 <div className="w-full h-44 bg-slate-50 rounded-xl mb-5 flex items-center justify-center overflow-hidden border border-slate-100 p-4">
                   {laptop.image ? (
-                    <img src={laptop.image} alt={laptop.name} className="w-full h-full object-contain group-hover:scale-105 transition duration-500" />
+                    <motion.img 
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.4 }}
+                      src={laptop.image} 
+                      alt={laptop.name} 
+                      className="w-full h-full object-contain" 
+                    />
                   ) : (
                     <Laptop className="w-12 h-12 text-slate-200" />
                   )}
@@ -238,145 +295,151 @@ export default function LaptopStore() {
                     )}
                   </div>
 
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => openBooking(laptop)}
                     disabled={!laptop.inStock}
                     className={`h-10 px-4 rounded-xl font-bold uppercase tracking-widest text-[10px] transition-all ${
                       laptop.inStock
-                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:translate-y-[-1px]'
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700'
                         : 'bg-slate-100 text-slate-400 cursor-not-allowed'
                     }`}
                   >
                     {laptop.inStock ? 'Checkout' : 'Sold Out'}
-                  </button>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </main>
 
       {/* Booking Modal */}
-      {showModal && selectedLaptop && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-6" onClick={() => setShowModal(false)}>
-          <div
-            className="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto relative animate-in zoom-in-95 duration-200"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {bookingSuccess ? (
-              <div className="p-10 text-center">
-                <div className="w-16 h-16 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <CheckCircle2 className="w-8 h-8 text-emerald-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900 tracking-tight mb-2">Order Confirmed</h3>
-                <p className="text-slate-500 text-sm font-medium mb-8 leading-relaxed">Your request for <span className="text-blue-600 font-bold">{selectedLaptop.name}</span> has been received. Our team will contact you shortly.</p>
-                
-                <div className="bg-slate-50 rounded-2xl p-5 mb-8 text-left border border-slate-100">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-slate-500 text-xs font-bold uppercase tracking-wider">Total Price</span>
-                    <span className="text-slate-900 text-lg font-bold">{formatPrice(selectedLaptop.price)}</span>
+      <AnimatePresence>
+        {showModal && selectedLaptop && (
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-6" onClick={() => setShowModal(false)}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {bookingSuccess ? (
+                <div className="p-10 text-center">
+                  <div className="w-16 h-16 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <CheckCircle2 className="w-8 h-8 text-emerald-600" />
                   </div>
-                  <div className="flex items-center justify-between text-xs font-semibold">
-                    <span className="text-slate-500">Service Status</span>
-                    <span className="text-emerald-600">Authorized</span>
+                  <h3 className="text-2xl font-bold text-slate-900 tracking-tight mb-2">Order Confirmed</h3>
+                  <p className="text-slate-500 text-sm font-medium mb-8 leading-relaxed">Your request for <span className="text-blue-600 font-bold">{selectedLaptop.name}</span> has been received. Our team will contact you shortly.</p>
+                  
+                  <div className="bg-slate-50 rounded-2xl p-5 mb-8 text-left border border-slate-100">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-slate-500 text-xs font-bold uppercase tracking-wider">Total Price</span>
+                      <span className="text-slate-900 text-lg font-bold">{formatPrice(selectedLaptop.price)}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs font-semibold">
+                      <span className="text-slate-500">Service Status</span>
+                      <span className="text-emerald-600">Authorized</span>
+                    </div>
                   </div>
-                </div>
-                
-                <button
-                  onClick={() => setShowModal(false)}
-                  className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-blue-700 transition shadow-lg shadow-blue-600/20"
-                >
-                  Back to Store
-                </button>
-              </div>
-            ) : (
-              <>
-                <div className="p-6 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white/80 backdrop-blur-md z-10">
-                  <div className="flex items-center gap-4">
-                     <div className="w-12 h-12 bg-slate-50 border border-slate-200 rounded-xl overflow-hidden flex items-center justify-center p-2">
-                        {selectedLaptop.image ? (
-                          <img src={selectedLaptop.image} className="w-full h-full object-contain" />
-                        ) : (
-                          <Laptop className="w-6 h-6 text-slate-200" />
-                        )}
-                     </div>
-                     <div>
-                        <div className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-0.5">Hardware Order</div>
-                        <h3 className="text-lg font-bold text-slate-900 tracking-tight leading-none line-clamp-1">{selectedLaptop.name}</h3>
-                     </div>
-                  </div>
+                  
                   <button
                     onClick={() => setShowModal(false)}
-                    className="h-10 w-10 bg-slate-50 rounded-xl flex items-center justify-center hover:bg-slate-100 transition text-slate-400 hover:text-slate-900"
+                    className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-blue-700 transition shadow-lg shadow-blue-600/20"
                   >
-                    <X className="w-5 h-5" />
+                    Back to Store
                   </button>
                 </div>
-
-                <form onSubmit={handleBook} className="p-8 space-y-6">
-                  {error && (
-                    <div className="bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl text-xs font-bold">
-                      {error}
+              ) : (
+                <>
+                  <div className="p-6 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white/80 backdrop-blur-md z-10">
+                    <div className="flex items-center gap-4">
+                       <div className="w-12 h-12 bg-slate-50 border border-slate-200 rounded-xl overflow-hidden flex items-center justify-center p-2">
+                          {selectedLaptop.image ? (
+                            <img src={selectedLaptop.image} className="w-full h-full object-contain" />
+                          ) : (
+                            <Laptop className="w-6 h-6 text-slate-200" />
+                          )}
+                       </div>
+                       <div>
+                          <div className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-0.5">Hardware Order</div>
+                          <h3 className="text-lg font-bold text-slate-900 tracking-tight leading-none line-clamp-1">{selectedLaptop.name}</h3>
+                       </div>
                     </div>
-                  )}
+                    <button
+                      onClick={() => setShowModal(false)}
+                      className="h-10 w-10 bg-slate-50 rounded-xl flex items-center justify-center hover:bg-slate-100 transition text-slate-400 hover:text-slate-900"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <form onSubmit={handleBook} className="p-8 space-y-6">
+                    {error && (
+                      <div className="bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl text-xs font-bold">
+                        {error}
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="space-y-2">
+                         <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">Full Name</label>
+                         <input
+                          type="text"
+                          value={form.name}
+                          onChange={(e) => setForm({ ...form, name: e.target.value })}
+                          required
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:border-blue-600 outline-none transition placeholder:text-slate-300"
+                          placeholder="Authorized Name"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                         <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">Email ID</label>
+                         <input
+                          type="email"
+                          value={form.email}
+                          onChange={(e) => setForm({ ...form, email: e.target.value })}
+                          required
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:border-blue-600 outline-none transition placeholder:text-slate-300"
+                          placeholder="client@example.com"
+                        />
+                      </div>
+                    </div>
+
                     <div className="space-y-2">
-                       <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">Full Name</label>
+                       <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">Contact Number</label>
                        <input
-                        type="text"
-                        value={form.name}
-                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                        type="tel"
+                        value={form.phone}
+                        onChange={(e) => setForm({ ...form, phone: e.target.value })}
                         required
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:border-blue-600 outline-none transition placeholder:text-slate-300"
-                        placeholder="Authorized Name"
+                        placeholder="+91 XXXX XXXX"
                       />
                     </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">Email ID</label>
-                       <input
-                        type="email"
-                        value={form.email}
-                        onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        required
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:border-blue-600 outline-none transition placeholder:text-slate-300"
-                        placeholder="client@example.com"
-                      />
+
+                    <div className="pt-6 border-t border-slate-100 flex items-center justify-between gap-6">
+                       <div className="shrink-0">
+                          <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Total Calculation</div>
+                          <div className="text-2xl font-bold text-slate-900">{formatPrice(selectedLaptop.price)}</div>
+                       </div>
+                       <button
+                          type="submit"
+                          disabled={submitting}
+                          className="flex-1 bg-blue-600 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-[11px] shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition disabled:opacity-50"
+                        >
+                          {submitting ? 'Processing...' : 'Place Order'}
+                        </button>
                     </div>
-                  </div>
-
-                  <div className="space-y-2">
-                     <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">Contact Number</label>
-                     <input
-                      type="tel"
-                      value={form.phone}
-                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      required
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:border-blue-600 outline-none transition placeholder:text-slate-300"
-                      placeholder="+91 XXXX XXXX"
-                    />
-                  </div>
-
-                  <div className="pt-6 border-t border-slate-100 flex items-center justify-between gap-6">
-                     <div>
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Total Calculation</div>
-                        <div className="text-2xl font-bold text-slate-900">{formatPrice(selectedLaptop.price)}</div>
-                     </div>
-                     <button
-                        type="submit"
-                        disabled={submitting}
-                        className="flex-1 bg-blue-600 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-[11px] shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition disabled:opacity-50"
-                      >
-                        {submitting ? 'Processing...' : 'Place Order'}
-                      </button>
-                  </div>
-                </form>
-              </>
-            )}
+                  </form>
+                </>
+              )}
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </div>
   );
 }
-
